@@ -57,6 +57,8 @@ class WPawn():
     def __str__(self):
         return "WPawn"
 
+    # Return a list of the current (x,y) coordinates that this piece can move to
+    # on this turn.
     def get_valid_moves(self):
         retVal = []
         if self.game.board[self.x][self.y + 1] == None:
@@ -77,6 +79,19 @@ class WPawn():
 
         return retVal
 
+    # Call to switch out this pawn for a piece of type `piece_type`
+    # when the pawn has reached the top row.
+    def top_row(self, piece_type):
+        if piece_type == "Queen":
+            WQueen(self.x, self.y, self.game)
+
+    # (target_x, target_y) must be something returned by self.get_valid_moves()
+    def move(self, target_x, target_y):
+        self.game.board[self.x][self.y] = None
+        self.game.board[target_x][target_y] = self
+        self.x = target_x
+        self.y = target_y
+
 
 class BPawn():
     def __init__(self, x, y, game):
@@ -93,3 +108,27 @@ class BPawn():
 
     def __str__(self):
         return "BPawn"
+
+
+class WQueen():
+    def __init__(self, x, y, game):
+        self.x = x
+        self.y = y
+        self.game = game
+        game.board[x][y] = self
+        """
+        Invariants: 
+        * (self.color == True)  <==> White
+        * (self.color == False) <==> Black
+        """
+        self.color = False
+
+    def __str__(self):
+        return "WQueen"
+
+    # Return a list of the current (x,y) coordinates that this piece can move to
+    # on this turn.
+    def get_valid_moves(self):
+        retVal = []
+        # Todo for Homework
+        return retVal
