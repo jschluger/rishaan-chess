@@ -1,5 +1,9 @@
 from pprint import pprint
 
+def off_board(x,y):
+    retVal = x < 8 and y < 8 and x >= 0 and y >= 0
+    return retVal
+
 
 class ChessGame():
     def __init__(self):
@@ -130,5 +134,37 @@ class WQueen():
     # on this turn.
     def get_valid_moves(self):
         retVal = []
-        # Todo for Homework
+        # Case 1
+        for delta_y_plus in range(0,8):
+            if off_board(self.x, self.y + delta_y_plus):
+                break
+            if self.game.board[self.x][self.y + delta_y_plus] == None:
+                retVal.append((self.x, self.y + delta_y_plus))
+
+            elif self.game.board[self.x][self.y + delta_y_plus] != None:
+                if self.game.board[self.x][self.y + delta_y_plus].color == False:
+                    retVal.append((self.x, self.y + delta_y_plus))
+                break
+
+        # Case 2
+        for delta_xy_plus in range(0,8):
+            if off_board(self.x + delta_xy_plus, self.y + delta_xy_plus):
+                break
+            if self.game.board[self.x + delta_xy_plus][self.y + delta_xy_plus] == None:
+                retVal.append((self.x + delta_xy_plus, self.y + delta_xy_plus))
+
+            elif self.game.board[self.x + delta_xy_plus][self.y + delta_xy_plus] != None:
+                if self.game.board[self.x + delta_xy_plus][self.y + delta_xy_plus].color == False:
+                    retVal.append((self.x + delta_xy_plus, self.y + delta_xy_plus))
+                break
+
+        ##############################################
+        # while True:
+        addition=self.game.board[self.x + rng][self.y + rng]
+        while self.game.board[self.x+rng][self.y+rng]==None:
+            noappend=True
+            if self.game.board[self.x+rng][self.y+rng]!=None:
+                noappend=False
+        if noappend==False:
+            retVal.append(addition)
         return retVal
