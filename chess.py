@@ -25,6 +25,21 @@ class ChessGame():
     """
         self.turn = True
 
+    def __str__(self):
+        retVal = ""
+        for y in range(8):
+            line = f"y={y} : "
+            for x in range(8):
+                line += str(self.board[x][y]) + "\t"
+            retVal = line + "\n" + retVal
+        retVal += "\t"
+        for x in range(8):
+            retVal += "..\t"
+        retVal += "\n\t"
+        for x in range(8):
+            retVal += f"x={x}\t"
+        return retVal
+
 
 class WPawn():
     def __init__(self, x, y, game):
@@ -32,17 +47,49 @@ class WPawn():
         self.y = y
         self.game = game
         game.board[x][y] = self
+        """
+        Invariants: 
+        * (self.color == True)  <==> White
+        * (self.color == False) <==> Black
+        """
+        self.color = True
+
+    def __str__(self):
+        return "WPawn"
 
     def get_valid_moves(self):
-        want_to_check = [(self.x, self.y + 1), (self.x + 1, self.y + 1),
-                         (self.x - 1, self.y + 1)]
-        print('want_to_check[0]', want_to_check[0])
-        result = []
-        if self.game.board[want_to_check[0][0]][want_to_check[0][1]] == None:
-            result.append(want_to_check[0])
+        retVal = []
+        if self.game.board[self.x][self.y + 1] == None:
+            retVal.append((self.x, self.y + 1))
 
-        # ToDo (Rishaan's HW): finish writing this method to consider the rest of
-        # the cases, and append any more valid places this pawn can move to result
+        if self.y == 1 and \
+            self.game.board[self.x][self.y + 1] == None and \
+                 self.game.board[self.x][self.y + 2] == None:
+            retVal.append((self.x, self.y + 2))
 
-        print('going to return', result)
-        return result
+        if self.game.board[self.x+1][self.y+1] != None and \
+            self.game.board[self.x+1][self.y+1].color == False:
+            retVal.append((self.x + 1, self.y + 1))
+
+        if self.game.board[self.x-1][self.y+1] != None and \
+            self.game.board[self.x-1][self.y+1].color == False:
+            retVal.append((self.x - 1, self.y + 1))
+
+        return retVal
+
+
+class BPawn():
+    def __init__(self, x, y, game):
+        self.x = x
+        self.y = y
+        self.game = game
+        game.board[x][y] = self
+        """
+        Invariants: 
+        * (self.color == True)  <==> White
+        * (self.color == False) <==> Black
+        """
+        self.color = False
+
+    def __str__(self):
+        return "BPawn"
