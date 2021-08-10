@@ -170,10 +170,15 @@ def main():
         (bpawn.graphicPiece, wpawn.graphicPiece))
 
     # Main Loop
+    print(logGame)
+    play_turn(True, logGame, clock, screen, background, allsprites)
+    pg.quit()
+
+
+def play_turn(color, logGame, clock, screen, background, allsprites):
     going = True
     while going:
         clock.tick(60)
-
         # Handle Input Events
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -181,25 +186,28 @@ def main():
             elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 going = False
 
-        if pg.mouse.get_pressed()[0] == True:
-            pos = pg.mouse.get_pos()
-            print('found clicked pos', pos)
+        # if pg.mouse.get_pressed()[0] == True:
+        #     pos = pg.mouse.get_pos()
+        #     print('found clicked pos', pos)
 
-        # allsprites.update()
+        # Actual Code starts
+        if pg.mouse.get_pressed()[0]:  # If mouse pressed
+            x_pixelpos, y_pixelpos = pg.mouse.get_pos()
+            print('Pixel pos is', x_pixelpos, y_pixelpos)
+            x_boardpos, y_boardpos = pixel_board(x_pixelpos, y_pixelpos)
+            print('Board pos is', x_boardpos, y_boardpos)
+            piece = logGame.board[x_boardpos][y_boardpos]
+            if piece is not None and color == piece.color:
+                valid_moves = piece.get_valid_moves()
+                print('Valid Moves are', valid_moves)
+
+        # Actual Code ends
 
         # Draw Everything
         screen.blit(background, (0, 0))
         allsprites.draw(screen)
         pg.display.flip()
 
-    pg.quit()
-
-
-def play_turn(color, logGame, pieces):
-    pass
-
-
-# Game Over
 
 # this calls the 'main' function when this script is executed
 if __name__ == "__main__":
