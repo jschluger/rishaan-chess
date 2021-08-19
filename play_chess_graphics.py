@@ -194,6 +194,7 @@ def play_turn(color, logGame, clock, screen, background, allsprites):
             if piece is not None and color == piece.color:
                 valid_moves = piece.get_valid_moves()
                 print('Valid Moves are', valid_moves)
+                # ToDo: Highlight the valid moves on the board
 
         # Actual Code ends
 
