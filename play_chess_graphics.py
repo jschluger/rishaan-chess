@@ -21,8 +21,13 @@ if not pg.mixer:
 main_dir = os.path.split(os.path.abspath(__file__))[0]
 data_dir = os.path.join(main_dir, "data")
 
-BOARD_WIDTH = 50 * 8
-BOARD_HEIGHT = 50 * 8
+X_OFFSET = 0  ## 2
+Y_OFFSET = 0  ## 6
+SQUARE_W = 50
+SQUARE_H = 50
+
+BOARD_WIDTH = SQUARE_W * 8
+BOARD_HEIGHT = SQUARE_H * 8
 
 
 # functions to create our resources
@@ -106,27 +111,15 @@ class Wpawn():
 
 
 def board_pixel(x, y):
-    """1,1 is Top Left Corner"""
+    """0,0 is Top Left Corner"""
     """board coord to pixel coord"""
-    x_offset = 2
-    y_offset = 6
-    square_w = 50
-    square_h = 50
-    result = ((x - 1) * square_w + x_offset, (y - 1) * square_h + y_offset)
+    result = (x * SQUARE_W + X_OFFSET, y * SQUARE_H + Y_OFFSET)
     return result
 
 
 def pixel_board(x, y):
     """pixel coord to board coord"""
-    x_offset = 2
-    y_offset = 6
-    square_w = 50
-    square_h = 50
-    result = []
-    rsx = round((x - x_offset) / square_w + 1)
-    rsy = round((y - y_offset) / square_h + 1)
-    result.append(rsx)
-    result.append(rsy)
+    result = (int((x - X_OFFSET) / SQUARE_W), int((y - Y_OFFSET) / SQUARE_H))
     return result
 
 
@@ -164,8 +157,8 @@ def main():
     y_offset = 6
     square_w = 50
     square_h = 50
-    bpawn = Bpawn(1, 2, logGame)
-    wpawn = Wpawn(1, 7, logGame)
+    bpawn = Bpawn(0, 6, logGame)
+    wpawn = Wpawn(0, 1, logGame)
     allsprites = pg.sprite.RenderPlain(
         (bpawn.graphicPiece, wpawn.graphicPiece))
 
@@ -193,10 +186,11 @@ def play_turn(color, logGame, clock, screen, background, allsprites):
         # Actual Code starts
         if pg.mouse.get_pressed()[0]:  # If mouse pressed
             x_pixelpos, y_pixelpos = pg.mouse.get_pos()
-            print('Pixel pos is', x_pixelpos, y_pixelpos)
+            print('\nPixel pos is', x_pixelpos, y_pixelpos)
             x_boardpos, y_boardpos = pixel_board(x_pixelpos, y_pixelpos)
             print('Board pos is', x_boardpos, y_boardpos)
             piece = logGame.board[x_boardpos][y_boardpos]
+            print('found piece', piece)
             if piece is not None and color == piece.color:
                 valid_moves = piece.get_valid_moves()
                 print('Valid Moves are', valid_moves)
