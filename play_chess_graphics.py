@@ -161,15 +161,17 @@ def main():
     wpawn = Wpawn(0, 1, logGame)
     allsprites = pg.sprite.RenderPlain(
         (bpawn.graphicPiece, wpawn.graphicPiece))
-
+    all_pieces = [bpawn, wpawn]
     # Main Loop
     print(logGame)
-    play_turn(True, logGame, clock, screen, background, allsprites)
+    play_turn(True, logGame, clock, screen, background, allsprites, all_pieces)
     pg.quit()
 
 
-def play_turn(color, logGame, clock, screen, background, allsprites):
+def play_turn(color, logGame, clock, screen, background, allsprites,
+              all_pieces):
     going = True
+    holding = False
     while going:
         clock.tick(60)
         # Handle Input Events
@@ -189,19 +191,48 @@ def play_turn(color, logGame, clock, screen, background, allsprites):
             print('\nPixel pos is', x_pixelpos, y_pixelpos)
             x_boardpos, y_boardpos = pixel_board(x_pixelpos, y_pixelpos)
             print('Board pos is', x_boardpos, y_boardpos)
-            piece = logGame.board[x_boardpos][y_boardpos]
-            print('found piece', piece)
-            if piece is not None and color == piece.color:
-                valid_moves = piece.get_valid_moves()
-                print('Valid Moves are', valid_moves)
-                # ToDo: Highlight the valid moves on the board
+
+            if not holding:  # What to do if not holding a piece
+                piece = logGame.board[x_boardpos][y_boardpos]
+                last_x_boardpos = x_boardpos
+                last_y_boardpos = y_boardpos
+
+                print('found piece', piece)
+                if piece is not None and color == piece.color:
+                    valid_moves = piece.get_valid_moves()
+                    holding = True
+                    print('Valid Moves are', valid_moves)
+                    # ToDo: Highlight the valid moves on the board
+
+            else:  # What to do if holding a piece
+                if (x_boardpos, y_boardpos) in valid_moves:
+
+                    logGame.board[last_x_boardpos][last_y_boardpos] = None
+
+                    logGame.board[x_boardpos][y_boardpos] = piece
+
+                    # 1. Remove the piece from original location
+                    # 2. (Possibly) remove opononents piece at new location
+                    # 3. Place the piece in the new location
+                else:
+                    holding = False
+
+                # ToDo: Stop highlighting valid moves
 
         # Actual Code ends
 
         # Draw Everything
+        update_piece_positions(all_pieces)
         screen.blit(background, (0, 0))
         allsprites.draw(screen)
         pg.display.flip()
+
+def update_piece_positions(all_pieces):
+    for piece in all_pieces:
+        # if piece.graphicPiece is not in the same place as piece.logicalPiece:
+            # move the graphicalPiece to the position of logicalPiece
+
+
 
 
 # this calls the 'main' function when this script is executed

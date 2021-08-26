@@ -33,6 +33,7 @@ class ChessGame():
     def __str__(self):
         retVal = ""
         for y in range(8):
+            y = 7 - y
             line = f"y={y} : "
             for x in range(8):
                 line += str(self.board[x][y]) + "\t\t"
@@ -226,4 +227,5 @@ class BQueen():
                 noappend = False
         if noappend == False:
             retVal.append(addition)
+
         return retVal
