@@ -12,6 +12,7 @@ import os
 import pygame as pg
 from pygame.compat import geterror
 import chess
+import random
 
 if not pg.font:
     print("Warning, fonts disabled")
@@ -181,10 +182,6 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
             elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 going = False
 
-        # if pg.mouse.get_pressed()[0] == True:
-        #     pos = pg.mouse.get_pos()
-        #     print('found clicked pos', pos)
-
         # Actual Code starts
         if pg.mouse.get_pressed()[0]:  # If mouse pressed
             x_pixelpos, y_pixelpos = pg.mouse.get_pos()
@@ -211,28 +208,35 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
 
                     logGame.board[x_boardpos][y_boardpos] = piece
 
-                    # 1. Remove the piece from original location
-                    # 2. (Possibly) remove opononents piece at new location
-                    # 3. Place the piece in the new location
+                    piece.x = x_boardpos
+                    piece.y = y_boardpos
+
                 else:
                     holding = False
 
                 # ToDo: Stop highlighting valid moves
 
-        # Actual Code ends
-
         # Draw Everything
         update_piece_positions(all_pieces)
         screen.blit(background, (0, 0))
+        if holding:
+            for valid_move in valid_moves:
+                loc = board_pixel(valid_move[0], valid_move[1])
+                rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
+                screen.fill((189, 209, 255), rect=rect)
         allsprites.draw(screen)
         pg.display.flip()
 
+
 def update_piece_positions(all_pieces):
     for piece in all_pieces:
-        # if piece.graphicPiece is not in the same place as piece.logicalPiece:
-            # move the graphicalPiece to the position of logicalPiece
-
-
+        real_location = board_pixel(piece.logicalPiece.x, piece.logicalPiece.y)
+        # print(
+        #     f'piece.graphicPiece.rect.topleft: {piece.graphicPiece.rect.topleft}'
+        # )
+        # print(f'real_location: {real_location}')
+        if piece.graphicPiece.rect.topleft != real_location:
+            piece.graphicPiece.rect.topleft = real_location
 
 
 # this calls the 'main' function when this script is executed
