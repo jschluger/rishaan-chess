@@ -103,13 +103,13 @@ class Bpawn():
     def __init__(self, my_x, my_y, logGame):
         self.graphicPiece = Piece("black_pawn.png", my_x, my_y)
         self.logicalPiece = chess.BPawn(my_x, my_y, logGame)
-
+        #Possible color reference code my_col=False
 
 class Wpawn():
     def __init__(self, my_x, my_y, logGame):
         self.graphicPiece = Piece("white_pawn.png", my_x, my_y)
         self.logicalPiece = chess.WPawn(my_x, my_y, logGame)
-
+        #Possible color reference code my_col=True
 
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
@@ -158,8 +158,23 @@ def main():
     y_offset = 6
     square_w = 50
     square_h = 50
-    bpawn = Bpawn(0, 6, logGame)
-    wpawn = Wpawn(0, 1, logGame)
+    bpawn1 = Bpawn(0, 6, logGame)
+    bpawn2 = Bpawn(1, 6, logGame)
+    bpawn3 = Bpawn(2, 6, logGame)
+    bpawn4 = Bpawn(3, 6, logGame)
+    bpawn5 = Bpawn(4, 6, logGame)
+    bpawn6 = Bpawn(5, 6, logGame)
+    bpawn7 = Bpawn(6, 6, logGame)
+    bpawn8 = Bpawn(7, 6, logGame)
+    wpawn1 = Wpawn(0, 1, logGame)
+    wpawn2 = Wpawn(1, 1, logGame)
+    wpawn3 = Wpawn(2, 1, logGame)
+    wpawn4 = Wpawn(3, 1, logGame)
+    wpawn5 = Wpawn(4, 1, logGame)
+    wpawn6 = Wpawn(5, 1, logGame)
+    wpawn7 = Wpawn(6, 1, logGame)
+    wpawn8 = Wpawn(7, 1, logGame)
+
     allsprites = pg.sprite.RenderPlain(
         (bpawn.graphicPiece, wpawn.graphicPiece))
     all_pieces = [bpawn, wpawn]
@@ -213,6 +228,7 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
 
                 else:
                     holding = False
+    #Could call play_turn() here with color False
 
                 # ToDo: Stop highlighting valid moves
 
