@@ -104,6 +104,10 @@ class Bpawn():
         self.graphicPiece = Piece("black_pawn.png", my_x, my_y)
         self.logicalPiece = chess.BPawn(my_x, my_y, logGame)
 
+class Wpawn():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("white_pawn.png", my_x, my_y)
+        self.logicalPiece = chess.WPawn(my_x, my_y, logGame)
 
 class Wknight():
     def __init__(self, my_x, my_y, logGame):
