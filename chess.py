@@ -151,6 +151,47 @@ class BPawn():
         self.y = target_y
 
 
+class Knight():
+    def __init__(self, x, y, color, game):
+        self.x = x
+        self.y = y
+        self.game = game
+        game.board[x][y] = self
+        """
+        Invariants: 
+        * (self.color == True)  <==> White
+        * (self.color == False) <==> Black
+        """
+        self.color = False
+
+    def __str__(self):
+        return f"{'W' if self.color else 'B'}Knight"
+
+    # Return a list of the current (x,y) coordinates that this piece can move to
+    # on this turn.
+    def get_valid_moves(self):
+        retVal = []
+        raise NotImplementedError(
+        )  # Remove this line and replace it with your implemenetation!
+        return retVal
+
+    # Call to switch out this pawn for a piece of type `piece_type`
+    # when the pawn has reached the top row.
+    def top_row(self, piece_type):
+        raise NotImplementedError()  # Do we need to implement this?
+
+    # (target_x, target_y) must be something returned by self.get_valid_moves()
+    def move(self, target_x, target_y):
+        # Bonus question!:
+        # I copied this move fn directly from BPawn...
+        # We seem to have forgot about it in play_chess_graphics, can you find any
+        # part of the code in play_turn that is redundant and we could just use this move() function instead?
+        self.game.board[self.x][self.y] = None
+        self.game.board[target_x][target_y] = self
+        self.x = target_x
+        self.y = target_y
+
+
 class WQueen():
     def __init__(self, x, y, game):
         self.x = x

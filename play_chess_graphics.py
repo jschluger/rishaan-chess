@@ -103,14 +103,18 @@ class Bpawn():
     def __init__(self, my_x, my_y, logGame):
         self.graphicPiece = Piece("black_pawn.png", my_x, my_y)
         self.logicalPiece = chess.BPawn(my_x, my_y, logGame)
-        #Possible color reference code my_col=False
 
 
-class Wpawn():
+class Wknight():
     def __init__(self, my_x, my_y, logGame):
-        self.graphicPiece = Piece("white_pawn.png", my_x, my_y)
-        self.logicalPiece = chess.WPawn(my_x, my_y, logGame)
-        #Possible color reference code my_col=True
+        self.graphicPiece = Piece("white_knight.png", my_x, my_y)
+        self.logicalPiece = chess.Knight(my_x, my_y, True, logGame)
+
+
+class Bknight():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("black_knight.png", my_x, my_y)
+        self.logicalPiece = chess.Knight(my_x, my_y, False, logGame)
 
 
 def board_pixel(x, y):
@@ -176,6 +180,8 @@ def main():
     wpawn6 = Wpawn(5, 1, logGame)
     wpawn7 = Wpawn(6, 1, logGame)
     wpawn8 = Wpawn(7, 1, logGame)
+
+    # Todo: Add a/some knight(s) to the board
 
     allsprites = pg.sprite.RenderPlain(
         (bpawn1.graphicPiece, wpawn1.graphicPiece, bpawn2.graphicPiece,
