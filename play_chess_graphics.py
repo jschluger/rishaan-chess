@@ -105,11 +105,13 @@ class Bpawn():
         self.logicalPiece = chess.BPawn(my_x, my_y, logGame)
         #Possible color reference code my_col=False
 
+
 class Wpawn():
     def __init__(self, my_x, my_y, logGame):
         self.graphicPiece = Piece("white_pawn.png", my_x, my_y)
         self.logicalPiece = chess.WPawn(my_x, my_y, logGame)
         #Possible color reference code my_col=True
+
 
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
@@ -176,8 +178,30 @@ def main():
     wpawn8 = Wpawn(7, 1, logGame)
 
     allsprites = pg.sprite.RenderPlain(
-        (bpawn.graphicPiece, wpawn.graphicPiece))
-    all_pieces = [bpawn, wpawn]
+        (bpawn1.graphicPiece, wpawn1.graphicPiece, bpawn2.graphicPiece,
+         wpawn2.graphicPiece, bpawn3.graphicPiece, wpawn3.graphicPiece,
+         bpawn4.graphicPiece, wpawn4.graphicPiece, bpawn5.graphicPiece,
+         wpawn5.graphicPiece, bpawn6.graphicPiece, wpawn6.graphicPiece,
+         bpawn7.graphicPiece, wpawn7.graphicPiece, bpawn8.graphicPiece,
+         wpawn8.graphicPiece))
+    all_pieces = [
+        bpawn1,
+        wpawn1,
+        bpawn2,
+        wpawn2,
+        bpawn3,
+        wpawn3,
+        bpawn4,
+        wpawn4,
+        bpawn5,
+        wpawn5,
+        bpawn6,
+        wpawn6,
+        bpawn7,
+        wpawn7,
+        bpawn8,
+        wpawn8,
+    ]
     # Main Loop
     print(logGame)
     play_turn(True, logGame, clock, screen, background, allsprites, all_pieces)
@@ -186,6 +210,8 @@ def main():
 
 def play_turn(color, logGame, clock, screen, background, allsprites,
               all_pieces):
+    # whites turn <==> color == True    -> Next play_turn needs color=False
+    # blacks turn <==> color == False   -> Next play_turn needs color=True
     going = True
     holding = False
     while going:
@@ -225,12 +251,13 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
 
                     piece.x = x_boardpos
                     piece.y = y_boardpos
+                    # We just moved the piece
+                    going = False
 
                 else:
                     holding = False
-    #Could call play_turn() here with color False
 
-                # ToDo: Stop highlighting valid moves
+        # ToDo: Stop highlighting valid moves
 
         # Draw Everything
         update_piece_positions(all_pieces)
@@ -242,6 +269,10 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
                 screen.fill((189, 209, 255), rect=rect)
         allsprites.draw(screen)
         pg.display.flip()
+
+    #Could call play_turn() here with color False
+    play_turn(not color, logGame, clock, screen, background, allsprites,
+              all_pieces)
 
 
 def update_piece_positions(all_pieces):
