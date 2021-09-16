@@ -59,6 +59,7 @@ class WPawn():
         * (self.color == False) <==> Black
         """
         self.color = True
+        self.taken = False
 
     def __str__(self):
         return "WPawn"
@@ -112,6 +113,8 @@ class BPawn():
         """
         self.color = False
 
+        self.taken = False
+
     def __str__(self):
         return "BPawn"
 
@@ -162,7 +165,9 @@ class Knight():
         * (self.color == True)  <==> White
         * (self.color == False) <==> Black
         """
-        self.color = False
+        self.color = color
+
+        self.taken = False
 
     def __str__(self):
         return f"{'W' if self.color else 'B'}Knight"
@@ -171,38 +176,25 @@ class Knight():
     # on this turn.
     def get_valid_moves(self):
         retVal = []
-        if self.game.board[self.x-1][self.y+2]==None or self.game.board[self.x-1][self.y+2]==WPawn and self.color==False:
-            retVal.append((self.x-1,self.y+2))
-        if self.game.board[self.x + 1][self.y - 2] == None or self.game.board[self.x + 1][self.y - 2] == BPawn and self.color == True:
-            retVal.append((self.x+1, self.y-2))
-        if self.game.board[self.x+2][self.y+1]==None or self.game.board[self.x+2][self.y+1]==WPawn and self.color==False:
-            retVal.append((self.x+2, self.y+1))
-        if self.game.board[self.x-2][self.y-1]==None or self.game.board[self.x-2][self.y-1]==WPawn and self.color==True:
-            retVal.append((self.x-2, self.y-1))
-        if self.game.board[self.x-2][self.y-1]==None or self.game.board[self.x-2][self.y-1]==WPawn and self.color==False:
-            retVal.append((self.x-2,self.y-1))
-        if self.game.board[self.x+2][self.y+1]==None or self.game.board[self.x+2][self.y+1]==BPawn and self.color==True:
-            retVal.append((self.x+2,self.y+1))
-        if self.game.board[self.x+1][self.y+2]==None or self.game.board[self.x+1][self.y+2]==WPawn and self.color==False:
-            retVal.append((self.x+1,self.y+2))
-        if self.game.board[self.x-1][self.y-2]==None or self.game.board[self.x-1][self.y-2]==BPawn and self.color==True:
-            retVal.append((self.x-1,self.y-2))
-        if self.game.board[self.x-2][self.y+1]==None or self.game.board[self.x-2][self.y+1]==WPawn and self.color==False:
-            retVal.append((self.x-2,self.y+1))
-        if self.game.board[self.x+2][self.y-1]==None or self.game.board[self.x+2][self.y-1]==BPawn and self.color==True:
-            retVal.append((self.x+2,self.y-1))
-        if self.game.board[self.x+2][self.y-1]==None or self.game.board[self.x+2][self.y-1]==WPawn and self.color==False:
-            retVal.append((self.x+2,self.y-1))
-        if self.game.board[self.x-2][self.y+1]==None or self.game.board[self.x-2][self.y+1]==BPawn and self.color==True:
-            retVal.append((self.x-2,self.y+1))
-        if self.game.board[self.x-1][self.y-2]==None or self.game.board[self.x-1][self.y-2]==WPawn and self.color==False:
-            retVal.append((self.x-1,self.y-2))
-        if self.game.board[self.x+1][self.y+2]==None or self.game.board[self.x+1][self.y+2]==BPawn and self.color==True:
-            retVal.append((self.x+1,self.y+2))
-        if self.game.board[self.x+1][self.y-2]==None or self.game.board[self.x+1][self.y-2]==WPawn and self.color==False:
-            retVal.append((self.x+1,self.y-2))
-        if self.game.board[self.x-1][self.y+2]==None or self.game.board[self.x-1][self.y+2]==BPawn and self.color==True:
-            retVal.append((self.x-1,self.y+2))
+
+        to_check = [
+            (1, 2),
+            (1, -2),
+            (-1, 2),
+            (-1, -2),
+            (2, 1),
+            (2, -1),
+            (-2, 1),
+            (-2, -1),
+        ]
+        for (dx, dy) in to_check:
+            if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
+                if self.game.board[self.x + dx][self.y + dy] == None or (
+                        self.game.board[self.x + dx][self.y + dy] != None
+                        and self.game.board[self.x + dx][self.y + dy].color !=
+                        self.color):
+                    retVal.append((self.x + dx, self.y + dy))
+
         return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
