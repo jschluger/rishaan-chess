@@ -123,6 +123,20 @@ class Bknight():
         self.logicalPiece = chess.Knight(my_x, my_y, False, logGame)
 
 
+class Wrook():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("white_rook.png", my_x, my_y)
+        self.logicalPiece = chess.Rook(my_x, my_y, True,
+                                       logGame)  # This isn't defined yet
+
+
+class Brook():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("black_rook.png", my_x, my_y)
+        self.logicalPiece = chess.Rook(my_x, my_y, False,
+                                       logGame)  # This isn't defined yet
+
+
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
     """board coord to pixel coord"""
