@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="5390f678-6d5e-4c8c-8566-0610e4809767" name="Default Changelist" comment="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +47,26 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
     <option name="LAST_COMMIT_MESSAGE" value="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="0" y="235" key="VCS.EditChangelistDialog" timestamp="1631816760972">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="0" y="235" key="VCS.EditChangelistDialog/0.0.1280.680@0.0.1280.680" timestamp="1631816760972" />
   </component>
 </project>
