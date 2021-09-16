@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5390f678-6d5e-4c8c-8566-0610e4809767" name="Default Changelist" comment="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1yEPIOubUk9SYTLZWiJW52hvnrj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5390f678-6d5e-4c8c-8566-0610e4809767" name="Default Changelist" comment="" />
+      <created>1631813693584</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1631813693584</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
+    <option name="LAST_COMMIT_MESSAGE" value="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
+  </component>
+</project>

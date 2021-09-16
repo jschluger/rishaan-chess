@@ -184,8 +184,12 @@ def main():
     wpawn6 = Wpawn(5, 1, logGame)
     wpawn7 = Wpawn(6, 1, logGame)
     wpawn8 = Wpawn(7, 1, logGame)
+    bknight1 = Bknight(1, 0, logGame)
+    bknight2 = Bknight(6,0,logGame)
+    wknight1 = Wknight(1,6,logGame)
+    wknight2 = Wknight(6,6,logGame)
 
-    # Todo: Add a/some knight(s) to the board
+    # Did it!
 
     allsprites = pg.sprite.RenderPlain(
         (bpawn1.graphicPiece, wpawn1.graphicPiece, bpawn2.graphicPiece,
@@ -193,7 +197,7 @@ def main():
          bpawn4.graphicPiece, wpawn4.graphicPiece, bpawn5.graphicPiece,
          wpawn5.graphicPiece, bpawn6.graphicPiece, wpawn6.graphicPiece,
          bpawn7.graphicPiece, wpawn7.graphicPiece, bpawn8.graphicPiece,
-         wpawn8.graphicPiece))
+         wpawn8.graphicPiece,bknight1.graphicPiece,bknight2.graphicPiece,wknight1.graphicPiece,wknight2.graphicPiece))
     all_pieces = [
         bpawn1,
         wpawn1,
@@ -211,6 +215,10 @@ def main():
         wpawn7,
         bpawn8,
         wpawn8,
+        bknight1,
+        bknight2,
+        wknight1,
+        wknight2,
     ]
     # Main Loop
     print(logGame)
@@ -250,7 +258,7 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
                     valid_moves = piece.get_valid_moves()
                     holding = True
                     print('Valid Moves are', valid_moves)
-                    # ToDo: Highlight the valid moves on the board
+                    # I think we did it
 
             else:  # What to do if holding a piece
                 if (x_boardpos, y_boardpos) in valid_moves:

@@ -171,8 +171,38 @@ class Knight():
     # on this turn.
     def get_valid_moves(self):
         retVal = []
-        raise NotImplementedError(
-        )  # Remove this line and replace it with your implemenetation!
+        if self.game.board[self.x-1][self.y+2]==None or self.game.board[self.x-1][self.y+2]==WPawn and self.color==False:
+            retVal.append((self.x-1,self.y+2))
+        if self.game.board[self.x + 1][self.y - 2] == None or self.game.board[self.x + 1][self.y - 2] == BPawn and self.color == True:
+            retVal.append((self.x+1, self.y-2))
+        if self.game.board[self.x+2][self.y+1]==None or self.game.board[self.x+2][self.y+1]==WPawn and self.color==False:
+            retVal.append((self.x+2, self.y+1))
+        if self.game.board[self.x-2][self.y-1]==None or self.game.board[self.x-2][self.y-1]==WPawn and self.color==True:
+            retVal.append((self.x-2, self.y-1))
+        if self.game.board[self.x-2][self.y-1]==None or self.game.board[self.x-2][self.y-1]==WPawn and self.color==False:
+            retVal.append((self.x-2,self.y-1))
+        if self.game.board[self.x+2][self.y+1]==None or self.game.board[self.x+2][self.y+1]==BPawn and self.color==True:
+            retVal.append((self.x+2,self.y+1))
+        if self.game.board[self.x+1][self.y+2]==None or self.game.board[self.x+1][self.y+2]==WPawn and self.color==False:
+            retVal.append((self.x+1,self.y+2))
+        if self.game.board[self.x-1][self.y-2]==None or self.game.board[self.x-1][self.y-2]==BPawn and self.color==True:
+            retVal.append((self.x-1,self.y-2))
+        if self.game.board[self.x-2][self.y+1]==None or self.game.board[self.x-2][self.y+1]==WPawn and self.color==False:
+            retVal.append((self.x-2,self.y+1))
+        if self.game.board[self.x+2][self.y-1]==None or self.game.board[self.x+2][self.y-1]==BPawn and self.color==True:
+            retVal.append((self.x+2,self.y-1))
+        if self.game.board[self.x+2][self.y-1]==None or self.game.board[self.x+2][self.y-1]==WPawn and self.color==False:
+            retVal.append((self.x+2,self.y-1))
+        if self.game.board[self.x-2][self.y+1]==None or self.game.board[self.x-2][self.y+1]==BPawn and self.color==True:
+            retVal.append((self.x-2,self.y+1))
+        if self.game.board[self.x-1][self.y-2]==None or self.game.board[self.x-1][self.y-2]==WPawn and self.color==False:
+            retVal.append((self.x-1,self.y-2))
+        if self.game.board[self.x+1][self.y+2]==None or self.game.board[self.x+1][self.y+2]==BPawn and self.color==True:
+            retVal.append((self.x+1,self.y+2))
+        if self.game.board[self.x+1][self.y-2]==None or self.game.board[self.x+1][self.y-2]==WPawn and self.color==False:
+            retVal.append((self.x+1,self.y-2))
+        if self.game.board[self.x-1][self.y+2]==None or self.game.board[self.x-1][self.y+2]==BPawn and self.color==True:
+            retVal.append((self.x-1,self.y+2))
         return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
