@@ -104,10 +104,12 @@ class Bpawn():
         self.graphicPiece = Piece("black_pawn.png", my_x, my_y)
         self.logicalPiece = chess.BPawn(my_x, my_y, logGame)
 
+
 class Wpawn():
     def __init__(self, my_x, my_y, logGame):
         self.graphicPiece = Piece("white_pawn.png", my_x, my_y)
         self.logicalPiece = chess.WPawn(my_x, my_y, logGame)
+
 
 class Wknight():
     def __init__(self, my_x, my_y, logGame):
@@ -119,6 +121,20 @@ class Bknight():
     def __init__(self, my_x, my_y, logGame):
         self.graphicPiece = Piece("black_knight.png", my_x, my_y)
         self.logicalPiece = chess.Knight(my_x, my_y, False, logGame)
+
+
+class Wrook():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("white_rook.png", my_x, my_y)
+        self.logicalPiece = chess.Rook(my_x, my_y, True,
+                                       logGame)  # This isn't defined yet
+
+
+class Brook():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("black_rook.png", my_x, my_y)
+        self.logicalPiece = chess.Rook(my_x, my_y, False,
+                                       logGame)  # This isn't defined yet
 
 
 def board_pixel(x, y):
@@ -184,10 +200,10 @@ def main():
     wpawn6 = Wpawn(5, 1, logGame)
     wpawn7 = Wpawn(6, 1, logGame)
     wpawn8 = Wpawn(7, 1, logGame)
-    bknight1 = Bknight(1, 0, logGame)
-    bknight2 = Bknight(6,0,logGame)
-    wknight1 = Wknight(1,6,logGame)
-    wknight2 = Wknight(6,6,logGame)
+    bknight1 = Bknight(1, 7, logGame)
+    bknight2 = Bknight(6, 7, logGame)
+    wknight1 = Wknight(1, 0, logGame)
+    wknight2 = Wknight(6, 0, logGame)
 
     # Did it!
 
@@ -197,7 +213,8 @@ def main():
          bpawn4.graphicPiece, wpawn4.graphicPiece, bpawn5.graphicPiece,
          wpawn5.graphicPiece, bpawn6.graphicPiece, wpawn6.graphicPiece,
          bpawn7.graphicPiece, wpawn7.graphicPiece, bpawn8.graphicPiece,
-         wpawn8.graphicPiece,bknight1.graphicPiece,bknight2.graphicPiece,wknight1.graphicPiece,wknight2.graphicPiece))
+         wpawn8.graphicPiece, bknight1.graphicPiece, bknight2.graphicPiece,
+         wknight1.graphicPiece, wknight2.graphicPiece))
     all_pieces = [
         bpawn1,
         wpawn1,
@@ -265,6 +282,9 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
 
                     logGame.board[last_x_boardpos][last_y_boardpos] = None
 
+                    if logGame.board[x_boardpos][y_boardpos] != None:
+                        logGame.board[x_boardpos][y_boardpos].taken = True
+
                     logGame.board[x_boardpos][y_boardpos] = piece
 
                     piece.x = x_boardpos
@@ -300,7 +320,10 @@ def update_piece_positions(all_pieces):
         #     f'piece.graphicPiece.rect.topleft: {piece.graphicPiece.rect.topleft}'
         # )
         # print(f'real_location: {real_location}')
-        if piece.graphicPiece.rect.topleft != real_location:
+        if piece.logicalPiece.taken:
+            # Todo: Make the piece.graphicPiece hidden.
+            piece.graphicPiece.rect = (0, 0, 0, 0)
+        elif piece.graphicPiece.rect.topleft != real_location:
             piece.graphicPiece.rect.topleft = real_location
 
 
