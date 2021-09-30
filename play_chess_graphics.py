@@ -63,10 +63,10 @@ def load_sound(name):
     return sound
 
 
-class Piece(pg.sprite.Sprite):
+class Piece(pg.sprite.DirtySprite):
     def __init__(self, image_name, my_x, my_y):
         pp = board_pixel(my_x, my_y)
-        pg.sprite.Sprite.__init__(self)  # call Sprite initializer
+        pg.sprite.DirtySprite.__init__(self)  # call Sprite initializer
         self.image, self.rect = load_image(image_name, -1)
         self.image = pg.transform.scale(self.image,
                                         (BOARD_WIDTH // 8, BOARD_HEIGHT // 8))
@@ -207,14 +207,6 @@ def main():
 
     # Did it!
 
-    allsprites = pg.sprite.RenderPlain(
-        (bpawn1.graphicPiece, wpawn1.graphicPiece, bpawn2.graphicPiece,
-         wpawn2.graphicPiece, bpawn3.graphicPiece, wpawn3.graphicPiece,
-         bpawn4.graphicPiece, wpawn4.graphicPiece, bpawn5.graphicPiece,
-         wpawn5.graphicPiece, bpawn6.graphicPiece, wpawn6.graphicPiece,
-         bpawn7.graphicPiece, wpawn7.graphicPiece, bpawn8.graphicPiece,
-         wpawn8.graphicPiece, bknight1.graphicPiece, bknight2.graphicPiece,
-         wknight1.graphicPiece, wknight2.graphicPiece))
     all_pieces = [
         bpawn1,
         wpawn1,
@@ -239,12 +231,11 @@ def main():
     ]
     # Main Loop
     print(logGame)
-    play_turn(True, logGame, clock, screen, background, allsprites, all_pieces)
+    play_turn(True, logGame, clock, screen, background, all_pieces)
     pg.quit()
 
 
-def play_turn(color, logGame, clock, screen, background, allsprites,
-              all_pieces):
+def play_turn(color, logGame, clock, screen, background, all_pieces):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     going = True
@@ -291,40 +282,40 @@ def play_turn(color, logGame, clock, screen, background, allsprites,
                     piece.y = y_boardpos
                     # We just moved the piece
                     going = False
-
+                    print(f'all_pieces has {len(all_pieces)} pieces')
                 else:
                     holding = False
 
         # ToDo: Stop highlighting valid moves
 
         # Draw Everything
-        update_piece_positions(all_pieces)
+        all_pieces = update_piece_positions(all_pieces)
+
         screen.blit(background, (0, 0))
         if holding:
             for valid_move in valid_moves:
                 loc = board_pixel(valid_move[0], valid_move[1])
                 rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
                 screen.fill((189, 209, 255), rect=rect)
+
+        allsprites = pg.sprite.RenderPlain(
+            [piece.graphicPiece for piece in all_pieces])
         allsprites.draw(screen)
         pg.display.flip()
 
     #Could call play_turn() here with color False
-    play_turn(not color, logGame, clock, screen, background, allsprites,
-              all_pieces)
+    play_turn(not color, logGame, clock, screen, background, all_pieces)
 
 
-def update_piece_positions(all_pieces):
-    for piece in all_pieces:
+def update_piece_positions(pieces):
+    # Should return the updated list of all_pieces
+    pieces = list(filter(lambda piece: not piece.logicalPiece.taken, pieces))
+
+    for piece in pieces:
         real_location = board_pixel(piece.logicalPiece.x, piece.logicalPiece.y)
-        # print(
-        #     f'piece.graphicPiece.rect.topleft: {piece.graphicPiece.rect.topleft}'
-        # )
-        # print(f'real_location: {real_location}')
-        if piece.logicalPiece.taken:
-            # Todo: Make the piece.graphicPiece hidden.
-            piece.graphicPiece.rect = (0, 0, 0, 0)
-        elif piece.graphicPiece.rect.topleft != real_location:
+        if piece.graphicPiece.rect.topleft != real_location:
             piece.graphicPiece.rect.topleft = real_location
+    return pieces
 
 
 # this calls the 'main' function when this script is executed
