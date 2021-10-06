@@ -47,8 +47,8 @@ class ChessGame():
         return retVal
 
 
-class WPawn():
-    def __init__(self, x, y, game):
+class LogPiece():
+    def __init__(self, color, x, y, game):
         self.x = x
         self.y = y
         self.game = game
@@ -58,8 +58,26 @@ class WPawn():
         * (self.color == True)  <==> White
         * (self.color == False) <==> Black
         """
-        self.color = True
+        self.color = color
         self.taken = False
+
+    # (target_x, target_y) must be something returned by self.get_valid_moves()
+    def move(self, target_x, target_y):
+        self.game.board[self.x][self.y] = None
+        if self.game.board[target_x][target_y] != None:
+            self.game.board[target_x][target_y].taken = True
+        self.game.board[target_x][target_y] = self
+
+        self.x = target_x
+        self.y = target_y
+
+    def get_valid_moves(self):
+        raise NotImplementedError('Class must implement get_valid_moves')
+
+
+class WPawn(LogPiece):
+    def __init__(self, x, y, game):
+        super().__init__(True, x, y, game)
 
     def __str__(self):
         return "WPawn"
@@ -90,30 +108,12 @@ class WPawn():
     # when the pawn has reached the top row.
     def top_row(self, piece_type):
         if piece_type == "Queen":
-            WQueen(self.x, self.y, self.game)
-
-    # (target_x, target_y) must be something returned by self.get_valid_moves()
-    def move(self, target_x, target_y):
-        self.game.board[self.x][self.y] = None
-        self.game.board[target_x][target_y] = self
-        self.x = target_x
-        self.y = target_y
+            Queen(self.x, self.y, self.game)
 
 
-class BPawn():
+class BPawn(LogPiece):
     def __init__(self, x, y, game):
-        self.x = x
-        self.y = y
-        self.game = game
-        game.board[x][y] = self
-        """
-        Invariants: 
-        * (self.color == True)  <==> White
-        * (self.color == False) <==> Black
-        """
-        self.color = False
-
-        self.taken = False
+        super().__init__(False, x, y, game)
 
     def __str__(self):
         return "BPawn"
@@ -146,38 +146,11 @@ class BPawn():
         if piece_type == "Queen":
             BQueen(self.x, self.y, self.game)
 
-    # (target_x, target_y) must be something returned by self.get_valid_moves()
-    def move(self, target_x, target_y):
-        self.game.board[self.x][self.y] = None
-        self.game.board[target_x][target_y] = self
-        self.x = target_x
-        self.y = target_y
 
-
-class Knight():
+class Knight(LogPiece):
     def __init__(self, x, y, color, game):
-        self.x = x
-        self.y = y
-        self.game = game
-        game.board[x][y] = self
-        """
-        Invariants: 
-        * (self.color == True)  <==> White
-        * (self.color == False) <==> Black
-        """
-        self.color = color
-
-        self.taken = False
-
-    def __str__(self):
-        return f"{'W' if self.color else 'B'}Knight"
-
-    # Return a list of the current (x,y) coordinates that this piece can move to
-    # on this turn.
-    def get_valid_moves(self):
-        retVal = []
-
-        to_check = [
+        super().__init__(color, x, y, game)
+        self.to_check = [
             (1, 2),
             (1, -2),
             (-1, 2),
@@ -187,7 +160,15 @@ class Knight():
             (-2, 1),
             (-2, -1),
         ]
-        for (dx, dy) in to_check:
+
+    def __str__(self):
+        return f"{'W' if self.color else 'B'}Knight"
+
+    # Return a list of the current (x,y) coordinates that this piece can move to
+    # on this turn.
+    def get_valid_moves(self):
+        retVal = []
+        for (dx, dy) in self.to_check:
             if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
                 if self.game.board[self.x + dx][self.y + dy] == None or (
                         self.game.board[self.x + dx][self.y + dy] != None
@@ -202,53 +183,14 @@ class Knight():
     def top_row(self, piece_type):
         raise NotImplementedError()  # Do we need to implement this?
 
-    # (target_x, target_y) must be something returned by self.get_valid_moves()
-    def move(self, target_x, target_y):
-        # Bonus question!:
-        # I copied this move fn directly from BPawn...
-        # We seem to have forgot about it in play_chess_graphics, can you find any
-        # part of the code in play_turn that is redundant and we could just use this move() function instead?
-        self.game.board[self.x][self.y] = None
-        self.game.board[target_x][target_y] = self
-        self.x = target_x
-        self.y = target_y
 
-
-class WQueen():
-    def __init__(self, x, y, game):
-        self.x = x
-        self.y = y
-        self.game = game
-        game.board[x][y] = self
-        """
-        Invariants: 
-        * (self.color == True)  <==> White
-        * (self.color == False) <==> Black
-        """
-        self.color = True
+class Queen(LogPiece):
+    def __init__(self, x, y, color, game):
+        super().__init__(color, x, y, game)
 
     def __str__(self):
-        return "WQueen"
+        return f"{'W' if self.color else 'B'}Queen"
 
-
-class BQueen():
-    def __init__(self, x, y, game):
-        self.x = x
-        self.y = y
-        self.game = game
-        game.board[x][y] = self
-        """
-        Invariants: 
-        * (self.color == True)  <==> White
-        * (self.color == False) <==> Black
-        """
-        self.color = False
-
-    def __str__(self):
-        return "BQueen"
-
-    # Return a list of the current (x,y) coordinates that this piece can move to
-    # on this turn.
     def get_valid_moves(self):
         retVal = []
         # Case 1

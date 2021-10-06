@@ -271,15 +271,8 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
             else:  # What to do if holding a piece
                 if (x_boardpos, y_boardpos) in valid_moves:
 
-                    logGame.board[last_x_boardpos][last_y_boardpos] = None
+                    piece.move(x_boardpos, y_boardpos)
 
-                    if logGame.board[x_boardpos][y_boardpos] != None:
-                        logGame.board[x_boardpos][y_boardpos].taken = True
-
-                    logGame.board[x_boardpos][y_boardpos] = piece
-
-                    piece.x = x_boardpos
-                    piece.y = y_boardpos
                     # We just moved the piece
                     going = False
                     print(f'all_pieces has {len(all_pieces)} pieces')
