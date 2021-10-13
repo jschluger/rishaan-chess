@@ -146,7 +146,47 @@ class BPawn(LogPiece):
         if piece_type == "Queen":
             BQueen(self.x, self.y, self.game)
 
+class Rook(LogPiece):
+    def __init__(self, x, y, color, game):
+        super().__init__(color, x, y, game)
+        self.to_check = [
+            (1,0),
+            (2,0),
+            (3,0),
+            (4,0),
+            (5,0),
+            (6,0),
+            (7,0),
+            (-1,0),
+            (-2,0),
+            (-3,0),
+            (-4,0),
+            (-5,0),
+            (-6,0),
+            (-7,0),
+            (0,1),
+            (0,2),
+            (0,3),
+            (0,4),
+            (0,5),
+            (0,6),
+            (0,7),
+            (0,-1),
+            (0,-2),
+            (0,-3),
+            (0,-4),
+            (0,-5),
+            (0,-6),
+            (0,-7)
+        ]
 
+        def __str__(self):
+            return f"{'W' if self.color else 'B'}Rook"
+
+        def get_valid_moves(self):
+            for (dx,dy) in self.to_check:
+                if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
+                    if self.game.board[self.x + dx][self.y + dy] == None or self.game.board[self.x + dx][self.y + dy] != None and self.game.board[self.x + dx][self.y + dy].color != self.color and 
 class Knight(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
