@@ -72,7 +72,30 @@ class LogPiece():
         self.y = target_y
 
     def get_valid_moves(self):
-        raise NotImplementedError('Class must implement get_valid_moves')
+        print(f'get_valid_moves for piece {self}')
+        retVal = self.cp_get_valid_moves()
+        print(f'Valid moves from cp_get_valid_moves:  {retVal}')
+        list2 = self.direct_get_valid_moves()
+        print(f'Valid moves from direct_get_valid_moves:  {list2}')
+        retVal.extend(list2)
+        return retVal
+
+    def cp_get_valid_moves(self):
+        retVal = []
+        retVal.extend(self.cp_to_check)
+        return retVal
+
+    def direct_get_valid_moves(self):
+        retVal = []
+        for (dx, dy) in self.direct_to_check:
+            if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
+                if self.game.board[self.x + dx][self.y + dy] == None or (
+                        self.game.board[self.x + dx][self.y + dy] != None
+                        and self.game.board[self.x + dx][self.y + dy].color !=
+                        self.color):
+                    retVal.append((self.x + dx, self.y + dy))
+
+        return retVal
 
 
 class WPawn(LogPiece):
@@ -146,51 +169,31 @@ class BPawn(LogPiece):
         if piece_type == "Queen":
             BQueen(self.x, self.y, self.game)
 
+
 class Rook(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
-        self.to_check = [
-            (1,0),
-            (2,0),
-            (3,0),
-            (4,0),
-            (5,0),
-            (6,0),
-            (7,0),
-            (-1,0),
-            (-2,0),
-            (-3,0),
-            (-4,0),
-            (-5,0),
-            (-6,0),
-            (-7,0),
-            (0,1),
-            (0,2),
-            (0,3),
-            (0,4),
-            (0,5),
-            (0,6),
-            (0,7),
-            (0,-1),
-            (0,-2),
-            (0,-3),
-            (0,-4),
-            (0,-5),
-            (0,-6),
-            (0,-7)
-        ]
+        self.cp_to_check = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
         def __str__(self):
             return f"{'W' if self.color else 'B'}Rook"
 
         def get_valid_moves(self):
-            for (dx,dy) in self.to_check:
+            for (dx, dy) in self.to_check:
                 if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
-                    if self.game.board[self.x + dx][self.y + dy] == None or self.game.board[self.x + dx][self.y + dy] != None and self.game.board[self.x + dx][self.y + dy].color != self.color and 
+                    if self.game.board[self.x + dx][
+                            self.y +
+                            dy] == None or self.game.board[self.x + dx][
+                                self.y +
+                                dy] != None and self.game.board[self.x + dx][
+                                    self.y + dy].color != self.color and False:
+                        pass
+
+
 class Knight(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
-        self.to_check = [
+        self.direct_to_check = [
             (1, 2),
             (1, -2),
             (-1, 2),
@@ -200,23 +203,24 @@ class Knight(LogPiece):
             (-2, 1),
             (-2, -1),
         ]
+        self.cp_to_check = []
 
     def __str__(self):
         return f"{'W' if self.color else 'B'}Knight"
 
     # Return a list of the current (x,y) coordinates that this piece can move to
     # on this turn.
-    def get_valid_moves(self):
-        retVal = []
-        for (dx, dy) in self.to_check:
-            if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
-                if self.game.board[self.x + dx][self.y + dy] == None or (
-                        self.game.board[self.x + dx][self.y + dy] != None
-                        and self.game.board[self.x + dx][self.y + dy].color !=
-                        self.color):
-                    retVal.append((self.x + dx, self.y + dy))
+    # def get_valid_moves(self):
+    #     retVal = []
+    #     for (dx, dy) in self.to_check:
+    #         if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
+    #             if self.game.board[self.x + dx][self.y + dy] == None or (
+    #                     self.game.board[self.x + dx][self.y + dy] != None
+    #                     and self.game.board[self.x + dx][self.y + dy].color !=
+    #                     self.color):
+    #                 retVal.append((self.x + dx, self.y + dy))
 
-        return retVal
+    #     return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
     # when the pawn has reached the top row.
