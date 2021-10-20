@@ -82,7 +82,27 @@ class LogPiece():
 
     def cp_get_valid_moves(self):
         retVal = []
-        retVal.extend(self.cp_to_check)
+        for direction in self.cp_to_check:
+            dx, dy = direction
+            check_x = self.x + dx
+            check_y = self.y + dy
+            for step in range(8):
+                if check_x < 8 and check_y < 8 and check_x >= 0 and check_y >= 0:  # On the board
+                    if self.game.board[check_x][check_y] == None:  # Spot empty
+                        retVal.append((check_x, check_y))
+                    elif self.game.board[check_x][check_y] != None and \
+                         self.game.board[check_x][check_y].color != self.color: # Spot contains enemy piece
+                        retVal.append((check_x, check_y))
+                        break
+                    else:  # Spot contains own piece
+                        break
+                else:  # Off the board
+                    break
+                check_x = check_x + dx
+                check_y = check_y + dy
+
+            # Break to here
+
         return retVal
 
     def direct_get_valid_moves(self):
@@ -177,17 +197,6 @@ class Rook(LogPiece):
 
         def __str__(self):
             return f"{'W' if self.color else 'B'}Rook"
-
-        def get_valid_moves(self):
-            for (dx, dy) in self.to_check:
-                if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
-                    if self.game.board[self.x + dx][
-                            self.y +
-                            dy] == None or self.game.board[self.x + dx][
-                                self.y +
-                                dy] != None and self.game.board[self.x + dx][
-                                    self.y + dy].color != self.color and False:
-                        pass
 
 
 class Knight(LogPiece):

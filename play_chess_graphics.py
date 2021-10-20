@@ -125,14 +125,14 @@ class Bknight():
 
 class Wrook():
     def __init__(self, my_x, my_y, logGame):
-        self.graphicPiece = Piece("white_rook.png", my_x, my_y)
+        self.graphicPiece = Piece("white_rook.jpeg", my_x, my_y)
         self.logicalPiece = chess.Rook(my_x, my_y, True,
                                        logGame)  # This isn't defined yet
 
 
 class Brook():
     def __init__(self, my_x, my_y, logGame):
-        self.graphicPiece = Piece("black_rook.png", my_x, my_y)
+        self.graphicPiece = Piece("black_rook.jpeg", my_x, my_y)
         self.logicalPiece = chess.Rook(my_x, my_y, False,
                                        logGame)  # This isn't defined yet
 
@@ -204,30 +204,17 @@ def main():
     bknight2 = Bknight(6, 7, logGame)
     wknight1 = Wknight(1, 0, logGame)
     wknight2 = Wknight(6, 0, logGame)
+    wrook1 = Wrook(0, 0, logGame)
+    wrook2 = Wrook(7, 0, logGame)
+    brook1 = Brook(0, 7, logGame)
+    brook2 = Brook(7, 7, logGame)
 
     # Did it!
 
     all_pieces = [
-        bpawn1,
-        wpawn1,
-        bpawn2,
-        wpawn2,
-        bpawn3,
-        wpawn3,
-        bpawn4,
-        wpawn4,
-        bpawn5,
-        wpawn5,
-        bpawn6,
-        wpawn6,
-        bpawn7,
-        wpawn7,
-        bpawn8,
-        wpawn8,
-        bknight1,
-        bknight2,
-        wknight1,
-        wknight2,
+        bpawn1, wpawn1, bpawn2, wpawn2, bpawn3, wpawn3, bpawn4, wpawn4, bpawn5,
+        wpawn5, bpawn6, wpawn6, bpawn7, wpawn7, bpawn8, wpawn8, bknight1,
+        bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2
     ]
     # Main Loop
     print(logGame)
