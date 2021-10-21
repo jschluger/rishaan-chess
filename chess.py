@@ -195,6 +195,7 @@ class Rook(LogPiece):
         super().__init__(color, x, y, game)
         self.cp_to_check = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         self.direct_to_check = []
+
         def __str__(self):
             return f"{'W' if self.color else 'B'}Rook"
 
