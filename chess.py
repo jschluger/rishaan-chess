@@ -249,50 +249,10 @@ class Bishop(LogPiece):
 class Queen(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
+        self.direct_to_check = []
+        self.cp_to_check = [(1,1), (-1,1), (-1,-1), (1,-1), (1, 0), (0, 1), (-1, 0), (0, -1)]
 
     def __str__(self):
         return f"{'W' if self.color else 'B'}Queen"
 
-    def get_valid_moves(self):
-        retVal = []
-        # Case 1
-        for delta_y_plus in range(0, 8):
-            if off_board(self.x, self.y + delta_y_plus):
-                break
-            if self.game.board[self.x][self.y + delta_y_plus] == None:
-                retVal.append((self.x, self.y + delta_y_plus))
 
-            elif self.game.board[self.x][self.y + delta_y_plus] != None:
-                if self.game.board[self.x][self.y +
-                                           delta_y_plus].color == False:
-                    retVal.append((self.x, self.y + delta_y_plus))
-                break
-
-        # Case 2
-        for delta_xy_plus in range(0, 8):
-            if off_board(self.x + delta_xy_plus, self.y + delta_xy_plus):
-                break
-            if self.game.board[self.x + delta_xy_plus][self.y +
-                                                       delta_xy_plus] == None:
-                retVal.append((self.x + delta_xy_plus, self.y + delta_xy_plus))
-
-            elif self.game.board[self.x +
-                                 delta_xy_plus][self.y +
-                                                delta_xy_plus] != None:
-                if self.game.board[self.x + delta_xy_plus][
-                        self.y + delta_xy_plus].color == False:
-                    retVal.append(
-                        (self.x + delta_xy_plus, self.y + delta_xy_plus))
-                break
-
-        ##############################################
-        # while True:
-        addition = self.game.board[self.x + rng][self.y + rng]
-        while self.game.board[self.x + rng][self.y + rng] == None:
-            noappend = True
-            if self.game.board[self.x + rng][self.y + rng] != None:
-                noappend = False
-        if noappend == False:
-            retVal.append(addition)
-
-        return retVal

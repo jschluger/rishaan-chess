@@ -149,6 +149,8 @@ class WBishop():
         self.logicalPiece = chess.Bishop(my_x, my_y, True, logGame)
 
 
+#class WQueen()
+
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
     """board coord to pixel coord"""
