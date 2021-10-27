@@ -237,6 +237,14 @@ class Knight(LogPiece):
     def top_row(self, piece_type):
         raise NotImplementedError()  # Do we need to implement this?
 
+class Bishop(LogPiece):
+    def __init__(self, x, y, color, game):
+        super().__init__(color, x, y, game)
+        self.direct_to_check = []
+        self.cp_to_check = [(1,1), (-1,1), (-1,-1), (1,-1)]
+
+    def __str__(self):
+        return f"{'W' if self.color else 'B'}Bishop"
 
 class Queen(LogPiece):
     def __init__(self, x, y, color, game):

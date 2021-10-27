@@ -137,6 +137,18 @@ class Brook():
                                        logGame)  # This isn't defined yet
 
 
+class BBishop():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("black_bishop.png", my_x, my_y)
+        self.logicalPiece = chess.Bishop(my_x, my_y, False, logGame)
+
+
+class WBishop():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("white_bishop.png", my_x, my_y)
+        self.logicalPiece = chess.Bishop(my_x, my_y, True, logGame)
+
+
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
     """board coord to pixel coord"""
@@ -208,13 +220,17 @@ def main():
     wrook2 = Wrook(7, 0, logGame)
     brook1 = Brook(0, 7, logGame)
     brook2 = Brook(7, 7, logGame)
-
+    bbishop1 = BBishop(2, 7, logGame)
+    bbishop2 = BBishop(5, 7, logGame)
+    wbishop1 = WBishop(2, 0, logGame)
+    wbishop2 = WBishop(5, 0, logGame)
     # Did it!
 
     all_pieces = [
         bpawn1, wpawn1, bpawn2, wpawn2, bpawn3, wpawn3, bpawn4, wpawn4, bpawn5,
         wpawn5, bpawn6, wpawn6, bpawn7, wpawn7, bpawn8, wpawn8, bknight1,
-        bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2
+        bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1, bbishop2,
+        wbishop1, wbishop2
     ]
     # Main Loop
     print(logGame)
