@@ -61,6 +61,8 @@ class LogPiece():
         self.color = color
         self.taken = False
 
+        self.extra_direct_conditions = None
+
     # (target_x, target_y) must be something returned by self.get_valid_moves()
     def move(self, target_x, target_y):
         self.game.board[self.x][self.y] = None
@@ -107,13 +109,19 @@ class LogPiece():
 
     def direct_get_valid_moves(self):
         retVal = []
-        for (dx, dy) in self.direct_to_check:
+        for i, (dx, dy) in enumerate(self.direct_to_check):
             if self.x + dx < 8 and self.y + dy < 8 and self.x + dx >= 0 and self.y + dy >= 0:
                 if self.game.board[self.x + dx][self.y + dy] == None or (
                         self.game.board[self.x + dx][self.y + dy] != None
                         and self.game.board[self.x + dx][self.y + dy].color !=
                         self.color):
-                    retVal.append((self.x + dx, self.y + dy))
+                    if self.extra_direct_conditions is None:
+                        retVal.append((self.x + dx, self.y + dy))
+                    else:
+                        extra_condition = self.extra_direct_conditions[i](
+                            self.x + dx, self.y + dy)
+                        if extra_condition:
+                            retVal.append((self.x + dx, self.y + dy))
 
         return retVal
 
@@ -121,31 +129,37 @@ class LogPiece():
 class WPawn(LogPiece):
     def __init__(self, x, y, game):
         super().__init__(True, x, y, game)
+        self.cp_to_check = [(0, 1)]
+
+        self.direct_to_check = [(1, 1), (-1, 1)]
+        self.extra_direct_conditions = [
+            lambda x, y: self.game.board[x][y] != None
+        ] * 2
 
     def __str__(self):
         return "WPawn"
 
     # Return a list of the current (x,y) coordinates that this piece can move to
     # on this turn.
-    def get_valid_moves(self):
-        retVal = []
-        if self.game.board[self.x][self.y + 1] == None:
-            retVal.append((self.x, self.y + 1))
+    # def get_valid_moves(self):
+    #     retVal = []
+    #     if self.game.board[self.x][self.y + 1] == None:
+    #         retVal.append((self.x, self.y + 1))
 
-        if self.y == 1 and \
-            self.game.board[self.x][self.y + 1] == None and \
-                 self.game.board[self.x][self.y + 2] == None:
-            retVal.append((self.x, self.y + 2))
+    #     if self.y == 1 and \
+    #         self.game.board[self.x][self.y + 1] == None and \
+    #              self.game.board[self.x][self.y + 2] == None:
+    #         retVal.append((self.x, self.y + 2))
 
-        if self.game.board[self.x+1][self.y+1] != None and \
-            self.game.board[self.x+1][self.y+1].color == False:
-            retVal.append((self.x + 1, self.y + 1))
+    #     if self.game.board[self.x+1][self.y+1] != None and \
+    #         self.game.board[self.x+1][self.y+1].color == False:
+    #         retVal.append((self.x + 1, self.y + 1))
 
-        if self.game.board[self.x-1][self.y+1] != None and \
-            self.game.board[self.x-1][self.y+1].color == False:
-            retVal.append((self.x - 1, self.y + 1))
+    #     if self.game.board[self.x-1][self.y+1] != None and \
+    #         self.game.board[self.x-1][self.y+1].color == False:
+    #         retVal.append((self.x - 1, self.y + 1))
 
-        return retVal
+    #     return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
     # when the pawn has reached the top row.
@@ -157,31 +171,37 @@ class WPawn(LogPiece):
 class BPawn(LogPiece):
     def __init__(self, x, y, game):
         super().__init__(False, x, y, game)
+        self.cp_to_check = [(0, -1)]
+
+        self.direct_to_check = [(1, -1), (-1, -1)]
+        self.extra_direct_conditions = [
+            lambda x, y: self.game.board[x][y] != None
+        ] * 2
 
     def __str__(self):
         return "BPawn"
 
     # Return a list of the current (x,y) coordinates that this piece can move to
     # on this turn.
-    def get_valid_moves(self):
-        retVal = []
-        if self.game.board[self.x][self.y - 1] == None:
-            retVal.append((self.x, self.y - 1))
+    # def get_valid_moves(self):
+    #     retVal = []
+    #     if self.game.board[self.x][self.y - 1] == None:
+    #         retVal.append((self.x, self.y - 1))
 
-        if self.y == 6 and \
-            self.game.board[self.x][self.y - 1] == None and \
-                 self.game.board[self.x][self.y - 2] == None:
-            retVal.append((self.x, self.y - 2))
+    #     if self.y == 6 and \
+    #         self.game.board[self.x][self.y - 1] == None and \
+    #              self.game.board[self.x][self.y - 2] == None:
+    #         retVal.append((self.x, self.y - 2))
 
-        if self.game.board[self.x+1][self.y-1] != None and \
-            self.game.board[self.x+1][self.y-1].color == True:
-            retVal.append((self.x + 1, self.y - 1))
+    #     if self.game.board[self.x+1][self.y-1] != None and \
+    #         self.game.board[self.x+1][self.y-1].color == True:
+    #         retVal.append((self.x + 1, self.y - 1))
 
-        if self.game.board[self.x-1][self.y-1] != None and \
-            self.game.board[self.x-1][self.y-1].color == True:
-            retVal.append((self.x - 1, self.y - 1))
+    #     if self.game.board[self.x-1][self.y-1] != None and \
+    #         self.game.board[self.x-1][self.y-1].color == True:
+    #         retVal.append((self.x - 1, self.y - 1))
 
-        return retVal
+    #     return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
     # when the pawn has reached the top row.
@@ -237,22 +257,23 @@ class Knight(LogPiece):
     def top_row(self, piece_type):
         raise NotImplementedError()  # Do we need to implement this?
 
+
 class Bishop(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
         self.direct_to_check = []
-        self.cp_to_check = [(1,1), (-1,1), (-1,-1), (1,-1)]
+        self.cp_to_check = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
 
     def __str__(self):
         return f"{'W' if self.color else 'B'}Bishop"
+
 
 class Queen(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
         self.direct_to_check = []
-        self.cp_to_check = [(1,1), (-1,1), (-1,-1), (1,-1), (1, 0), (0, 1), (-1, 0), (0, -1)]
+        self.cp_to_check = [(1, 1), (-1, 1), (-1, -1), (1, -1), (1, 0), (0, 1),
+                            (-1, 0), (0, -1)]
 
     def __str__(self):
         return f"{'W' if self.color else 'B'}Queen"
-
-
