@@ -92,22 +92,22 @@
     <option name="LAST_COMMIT_MESSAGE" value="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1260" height="163" key="GridCell.Tab.0.bottom" timestamp="1635362908027">
+    <state width="1260" height="163" key="GridCell.Tab.0.bottom" timestamp="1635969575455">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1260" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635362908027" />
-    <state width="1260" height="163" key="GridCell.Tab.0.center" timestamp="1635362908027">
+    <state width="1260" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1635969575455" />
+    <state width="1260" height="163" key="GridCell.Tab.0.center" timestamp="1635969575455">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1260" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635362908027" />
-    <state width="1260" height="163" key="GridCell.Tab.0.left" timestamp="1635362908027">
+    <state width="1260" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1635969575455" />
+    <state width="1260" height="163" key="GridCell.Tab.0.left" timestamp="1635969575455">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1260" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635362908027" />
-    <state width="1260" height="163" key="GridCell.Tab.0.right" timestamp="1635362908027">
+    <state width="1260" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1635969575455" />
+    <state width="1260" height="163" key="GridCell.Tab.0.right" timestamp="1635969575455">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1260" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635362908027" />
+    <state width="1260" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1635969575455" />
     <state x="0" y="235" key="VCS.EditChangelistDialog" timestamp="1631816760972">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

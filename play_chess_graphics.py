@@ -236,8 +236,8 @@ def main():
     bbishop2 = BBishop(5, 7, logGame)
     wbishop1 = WBishop(2, 0, logGame)
     wbishop2 = WBishop(5, 0, logGame)
-    wqueen1 = WQueen(4, 0, logGame)
-    bqueen1 = BQueen(4, 7, logGame)
+    wqueen1 = WQueen(3, 0, logGame)
+    bqueen1 = BQueen(3, 7, logGame)
     # Did it!
 
     all_pieces = [
