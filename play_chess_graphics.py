@@ -149,7 +149,17 @@ class WBishop():
         self.logicalPiece = chess.Bishop(my_x, my_y, True, logGame)
 
 
-#class WQueen()
+class WQueen():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("white_queen.png", my_x, my_y)
+        self.logicalPiece = chess.Queen(my_x, my_y, True, logGame)
+
+
+class BQueen():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("black_queen.png", my_x, my_y)
+        self.logicalPiece = chess.Queen(my_x, my_y, False, logGame)
+
 
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
@@ -226,13 +236,15 @@ def main():
     bbishop2 = BBishop(5, 7, logGame)
     wbishop1 = WBishop(2, 0, logGame)
     wbishop2 = WBishop(5, 0, logGame)
+    wqueen1 = WQueen(4, 0, logGame)
+    bqueen1 = BQueen(4, 7, logGame)
     # Did it!
 
     all_pieces = [
         bpawn1, wpawn1, bpawn2, wpawn2, bpawn3, wpawn3, bpawn4, wpawn4, bpawn5,
         wpawn5, bpawn6, wpawn6, bpawn7, wpawn7, bpawn8, wpawn8, bknight1,
         bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1, bbishop2,
-        wbishop1, wbishop2
+        wbishop1, wbishop2, wqueen1, bqueen1
     ]
     # Main Loop
     print(logGame)
