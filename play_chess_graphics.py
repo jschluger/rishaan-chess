@@ -12,7 +12,7 @@ import os
 import pygame as pg
 from pygame.compat import geterror
 import chess
-import random
+import random, time
 
 if not pg.font:
     print("Warning, fonts disabled")
@@ -243,8 +243,8 @@ def main():
     all_pieces = [
         bpawn1, wpawn1, bpawn2, wpawn2, bpawn3, wpawn3, bpawn4, wpawn4, bpawn5,
         wpawn5, bpawn6, wpawn6, bpawn7, wpawn7, bpawn8, wpawn8, bknight1,
-        bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1, bbishop2,
-        wbishop1, wbishop2, wqueen1, bqueen1
+        bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1,
+        bbishop2, wbishop1, wbishop2, wqueen1, bqueen1
     ]
     # Main Loop
     print(logGame)
@@ -257,6 +257,7 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     going = True
     holding = False
+    last_click_time = 0
     while going:
         clock.tick(60)
         # Handle Input Events
@@ -267,7 +268,9 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
                 going = False
 
         # Actual Code starts
-        if pg.mouse.get_pressed()[0]:  # If mouse pressed
+        if pg.mouse.get_pressed(
+        )[0] and time.time() - last_click_time >= 1:  # If mouse pressed
+            last_click_time = time.time()
             x_pixelpos, y_pixelpos = pg.mouse.get_pos()
             print('\nPixel pos is', x_pixelpos, y_pixelpos)
             x_boardpos, y_boardpos = pixel_board(x_pixelpos, y_pixelpos)

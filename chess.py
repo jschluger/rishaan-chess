@@ -129,37 +129,19 @@ class LogPiece():
 class WPawn(LogPiece):
     def __init__(self, x, y, game):
         super().__init__(True, x, y, game)
-        self.cp_to_check = [(0, 1)]
+        self.cp_to_check = []
 
-        self.direct_to_check = [(1, 1), (-1, 1)]
+        self.direct_to_check = [(1, 1), (-1, 1), (0, 1), (0, 2)]
         self.extra_direct_conditions = [
-            lambda x, y: self.game.board[x][y] != None
-        ] * 2
+            lambda x, y: self.game.board[x][y] != None,
+            lambda x, y: self.game.board[x][y] != None,
+            lambda x, y: self.game.board[x][y] == None,
+            lambda x, y: self.y == 1 and self.game.board[x][
+                y - 1] == None and self.game.board[x][y] == None
+        ]
 
     def __str__(self):
         return "WPawn"
-
-    # Return a list of the current (x,y) coordinates that this piece can move to
-    # on this turn.
-    # def get_valid_moves(self):
-    #     retVal = []
-    #     if self.game.board[self.x][self.y + 1] == None:
-    #         retVal.append((self.x, self.y + 1))
-
-    #     if self.y == 1 and \
-    #         self.game.board[self.x][self.y + 1] == None and \
-    #              self.game.board[self.x][self.y + 2] == None:
-    #         retVal.append((self.x, self.y + 2))
-
-    #     if self.game.board[self.x+1][self.y+1] != None and \
-    #         self.game.board[self.x+1][self.y+1].color == False:
-    #         retVal.append((self.x + 1, self.y + 1))
-
-    #     if self.game.board[self.x-1][self.y+1] != None and \
-    #         self.game.board[self.x-1][self.y+1].color == False:
-    #         retVal.append((self.x - 1, self.y + 1))
-
-    #     return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
     # when the pawn has reached the top row.
@@ -171,37 +153,19 @@ class WPawn(LogPiece):
 class BPawn(LogPiece):
     def __init__(self, x, y, game):
         super().__init__(False, x, y, game)
-        self.cp_to_check = [(0, -1)]
+        self.cp_to_check = []
 
-        self.direct_to_check = [(1, -1), (-1, -1)]
+        self.direct_to_check = [(1, -1), (-1, -1), (0, -1), (0, -2)]
         self.extra_direct_conditions = [
-            lambda x, y: self.game.board[x][y] != None
-        ] * 2
+            lambda x, y: self.game.board[x][y] != None,
+            lambda x, y: self.game.board[x][y] != None,
+            lambda x, y: self.game.board[x][y] == None,
+            lambda x, y: self.y == 6 and self.game.board[x][
+                y + 1] == None and self.game.board[x][y] == None
+        ]
 
     def __str__(self):
         return "BPawn"
-
-    # Return a list of the current (x,y) coordinates that this piece can move to
-    # on this turn.
-    # def get_valid_moves(self):
-    #     retVal = []
-    #     if self.game.board[self.x][self.y - 1] == None:
-    #         retVal.append((self.x, self.y - 1))
-
-    #     if self.y == 6 and \
-    #         self.game.board[self.x][self.y - 1] == None and \
-    #              self.game.board[self.x][self.y - 2] == None:
-    #         retVal.append((self.x, self.y - 2))
-
-    #     if self.game.board[self.x+1][self.y-1] != None and \
-    #         self.game.board[self.x+1][self.y-1].color == True:
-    #         retVal.append((self.x + 1, self.y - 1))
-
-    #     if self.game.board[self.x-1][self.y-1] != None and \
-    #         self.game.board[self.x-1][self.y-1].color == True:
-    #         retVal.append((self.x - 1, self.y - 1))
-
-    #     return retVal
 
     # Call to switch out this pawn for a piece of type `piece_type`
     # when the pawn has reached the top row.
