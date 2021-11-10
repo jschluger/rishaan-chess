@@ -30,20 +30,23 @@ SQUARE_H = 50
 BOARD_WIDTH = SQUARE_W * 8
 BOARD_HEIGHT = SQUARE_H * 8
 
+PIECE_WIDTH = 50
+PIECE_HEIGHT = 50
+
 
 # functions to create our resources
 def load_image(name, colorkey=None):
     fullname = os.path.join(data_dir, name)
     try:
-        image = pg.image.load(name)
+        image = pg.image.load(name).convert_alpha()
     except pg.error:
         print("Cannot load image:", fullname)
         raise SystemExit(str(geterror()))
-    image = image.convert()
-    if colorkey is not None:
-        if colorkey == -1:
-            colorkey = image.get_at((0, 0))
-        image.set_colorkey(colorkey, pg.RLEACCEL)
+    # image = image.convert()
+    # if colorkey is not None:
+    #     if colorkey == -1:
+    #         colorkey = image.get_at((0, 0))
+    #     image.set_colorkey(colorkey, pg.RLEACCEL)
     return image, image.get_rect()
 
 
@@ -68,8 +71,9 @@ class Piece(pg.sprite.DirtySprite):
         pp = board_pixel(my_x, my_y)
         pg.sprite.DirtySprite.__init__(self)  # call Sprite initializer
         self.image, self.rect = load_image(image_name, -1)
+        # self.image = self.image.convert_alpha()
         self.image = pg.transform.scale(self.image,
-                                        (BOARD_WIDTH // 8, BOARD_HEIGHT // 8))
+                                        (PIECE_WIDTH, PIECE_HEIGHT))
         self.imagename = image_name
         screen = pg.display.get_surface()
         self.area = screen.get_rect()
@@ -125,14 +129,14 @@ class Bknight():
 
 class Wrook():
     def __init__(self, my_x, my_y, logGame):
-        self.graphicPiece = Piece("white_rook.jpeg", my_x, my_y)
+        self.graphicPiece = Piece("white_rook.png", my_x, my_y)
         self.logicalPiece = chess.Rook(my_x, my_y, True,
                                        logGame)  # This isn't defined yet
 
 
 class Brook():
     def __init__(self, my_x, my_y, logGame):
-        self.graphicPiece = Piece("black_rook.jpeg", my_x, my_y)
+        self.graphicPiece = Piece("black_rook.png", my_x, my_y)
         self.logicalPiece = chess.Rook(my_x, my_y, False,
                                        logGame)  # This isn't defined yet
 
