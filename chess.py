@@ -94,9 +94,10 @@ class LogPiece():
         retVal.extend(list2)
 
         # Round 2
-        retVal = filter(
-            lambda tst_x, tst_y: not deepcopy(self.game.board).WPMC(
-                self.x, self.y, tst_x, tst_y), retVal)
+        retVal = list(
+            filter(
+                lambda tst_cors: not deepcopy(self.game).WPMC(
+                    self.x, self.y, tst_cors[0], tst_cors[1]), retVal))
 
         return retVal
 
