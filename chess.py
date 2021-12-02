@@ -1,4 +1,5 @@
 from pprint import pprint
+from copy import copy, deepcopy
 
 
 def off_board(x, y):
@@ -46,6 +47,16 @@ class ChessGame():
             retVal += f"x={x}\t\t"
         return retVal
 
+    def WPMC(self, cur_x, cur_y, tst_x, tst_y):
+        """
+        "Would Put Me in Check?"
+        Returns True if moving the piace at (cur_x, cur_y) to (tst_x, tst_y) 
+        would put their own team in check, and False otherwise.
+        """
+        # In this copy of the board (self), if we moved the piece currently at (cur_x, cur_y)
+        # to (tst_x, tst_y), would the team self.board[cur_x][cur_y].color be in check?
+        return False
+
 
 class LogPiece():
     def __init__(self, color, x, y, game):
@@ -74,12 +85,20 @@ class LogPiece():
         self.y = target_y
 
     def get_valid_moves(self):
+        # Round 1
         print(f'get_valid_moves for piece {self}')
         retVal = self.cp_get_valid_moves()
         print(f'Valid moves from cp_get_valid_moves:  {retVal}')
         list2 = self.direct_get_valid_moves()
         print(f'Valid moves from direct_get_valid_moves:  {list2}')
         retVal.extend(list2)
+
+        # Round 2
+        retVal = list(
+            filter(
+                lambda tst_cors: not deepcopy(self.game).WPMC(
+                    self.x, self.y, tst_cors[0], tst_cors[1]), retVal))
+
         return retVal
 
     def cp_get_valid_moves(self):
