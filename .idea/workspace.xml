@@ -22,7 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5390f678-6d5e-4c8c-8566-0610e4809767" name="Default Changelist" comment="I added the knights to the board, the game is acting very strange, it is unable to take any piece and when facing each other it is highlighting the square behind the opponents pieces and when that square is clicked it is initializing a new piece of the player turn color! Black knights initialized behind white pawns whereas Black knights also initialized on top of the correct y of the white pawns. I could not find anything that could be causing any of this, so I just finished initializing the knights. I also do not know why you cannot move the knights. Anyway, see you at class!&#10;&#10;-Rishaan" />
+    <list default="true" id="5390f678-6d5e-4c8c-8566-0610e4809767" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/play_chess_graphics.py" beforeDir="false" afterPath="$PROJECT_DIR$/play_chess_graphics.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

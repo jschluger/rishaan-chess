@@ -165,6 +165,18 @@ class BQueen():
         self.logicalPiece = chess.Queen(my_x, my_y, False, logGame)
 
 
+class WKing():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("white_king.png", my_x, my_y)
+        self.logicalPiece = chess.King(my_x, my_y, True, logGame)
+
+
+class BKing():
+    def __init__(self, my_x, my_y, logGame):
+        self.graphicPiece = Piece("black_king.png", my_x, my_y)
+        self.logicalPiece = chess.King(my_x, my_y, False, logGame)
+
+
 def board_pixel(x, y):
     """0,0 is Top Left Corner"""
     """board coord to pixel coord"""
@@ -242,13 +254,15 @@ def main():
     wbishop2 = WBishop(5, 0, logGame)
     wqueen1 = WQueen(3, 0, logGame)
     bqueen1 = BQueen(3, 7, logGame)
+    wking1 = WKing(4, 0, logGame)
+    bking1 = BKing(4, 7, logGame)
     # Did it!
 
     all_pieces = [
         bpawn1, wpawn1, bpawn2, wpawn2, bpawn3, wpawn3, bpawn4, wpawn4, bpawn5,
         wpawn5, bpawn6, wpawn6, bpawn7, wpawn7, bpawn8, wpawn8, bknight1,
         bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1,
-        bbishop2, wbishop1, wbishop2, wqueen1, bqueen1
+        bbishop2, wbishop1, wbishop2, wqueen1, bqueen1, wking1, bking1
     ]
     # Main Loop
     print(logGame)
