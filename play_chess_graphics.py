@@ -273,6 +273,8 @@ def main():
 def play_turn(color, logGame, clock, screen, background, all_pieces):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
+    # Problem: logGame.turn is not up to date
+    logGame.turn = color
     going = True
     holding = False
     last_click_time = 0
@@ -334,7 +336,6 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
         allsprites.draw(screen)
         pg.display.flip()
 
-    #Could call play_turn() here with color False
     play_turn(not color, logGame, clock, screen, background, all_pieces)
 
 

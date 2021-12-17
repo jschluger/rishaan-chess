@@ -63,7 +63,8 @@ class ChessGame():
         # Find our king
         for row in self.board:
             for piece in row:
-                if piece.color == self.turn and isinstance(piece, King):
+                if piece is not None and piece.color == self.turn and isinstance(
+                        piece, King):
                     our_king = piece
                     break
 
@@ -71,7 +72,7 @@ class ChessGame():
         self.turn = not self.turn
         for row in self.board:
             for piece in row:
-                if piece.color == self.turn:
+                if piece is not None and piece.color == self.turn:
                     # will run for each piece on the opponent's team (opponent of our_king)
                     moves = piece.get_valid_moves(only_round_one=True)
                     for move in moves:
