@@ -96,12 +96,15 @@ class LogPiece():
         """
         self.color = color
         self.taken = False
+        self.moved = []
 
         self.extra_direct_conditions = None
+
 
     # (target_x, target_y) must be something returned by self.get_valid_moves()
     def move(self, target_x, target_y):
         self.game.board[self.x][self.y] = None
+        self.moved.append((target_x,target_y))
         if self.game.board[target_x][target_y] != None:
             self.game.board[target_x][target_y].taken = True
         self.game.board[target_x][target_y] = self
@@ -109,6 +112,13 @@ class LogPiece():
         self.x = target_x
         self.y = target_y
 
+
+    """Returns True if piece has moved in entire game and False if not"""
+    def has_moved(self):
+        if len(self.moved) == 0:
+            return False
+        else:
+            return True
     def get_valid_moves(self, only_round_one=False):
         # Round 1: find valid moves based on rules for how the pieces can move
         print(f'get_valid_moves for piece {self}')
@@ -297,9 +307,39 @@ class Queen(LogPiece):
 class King(LogPiece):
     def __init__(self, x, y, color, game):
         super().__init__(color, x, y, game)
+
         self.direct_to_check = [(1, 1), (-1, 1), (-1, -1), (1, -1), (1, 0),
                                 (0, 1), (-1, 0), (0, -1)]
         self.cp_to_check = []
 
+    def get_valid_moves(self, only_round_one=False):
+        # Round 1: find valid moves based on rules for how the pieces can move
+        print(f'get_valid_moves for piece {self}')
+        retVal = self.cp_get_valid_moves()
+        print(f'Valid moves from cp_get_valid_moves:  {retVal}')
+        list2 = self.direct_get_valid_moves()
+        print(f'Valid moves from direct_get_valid_moves:  {list2}')
+        retVal.extend(list2)
+        # Finding castling
+        if self.has_moved() is not True:
+            if self.game.board[self.x + 1][self.y] == None and self.game.board[self.x + 2][self.y] == None:
+                rook = self.game.board[self.x + 3][self.y]
+                if rook != None:
+                    if rook.has_moved() is not True:
+                        retVal.append((self.x + 2, self.y))
+        # Round 2: remove moves that would put your own team in check
+        if only_round_one == False:
+            retVal = list(
+                filter(
+                    lambda move: not deepcopy(self.game).WPMC(
+                        self.x, self.y, move[0], move[1]), retVal))
+
+        # IN other words (Round 2)...
+        # for move in retVal:
+        #     copy_of_game = deepcopy(self.game)
+        #     if in copy_of_game, it would put me in check to move the piece at self.x, self.y to move[0] move[1]:
+        #         remove this move from retVal
+
+        return retVal
     def __str__(self):
         return f"{'W' if self.color else 'B'}King"
