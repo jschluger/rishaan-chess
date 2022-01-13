@@ -47,6 +47,14 @@ class ChessGame():
             retVal += f"x={x}\t\t"
         return retVal
 
+    def in_checkmate(self, color):
+        for row in self.board:
+            for piece in row:
+                if piece is not None and piece.color == color:
+                    if len(piece.get_valid_moves()) > 0:
+                        return False
+        return True
+
     def WPMC(self, piece_x, piece_y, move_x, move_y):
         """
         "Would Put Me in Check?"
@@ -69,18 +77,19 @@ class ChessGame():
                     break
 
         # Let the opponent play their turn
-        self.turn = not self.turn
-        for row in self.board:
-            for piece in row:
-                if piece is not None and piece.color == self.turn:
-                    # will run for each piece on the opponent's team (opponent of our_king)
-                    moves = piece.get_valid_moves(only_round_one=True)
-                    for move in moves:
-                        if move == (our_king.x, our_king.y):
-                            # They can take the king!
-                            return True
-
-        return False
+        return our_king.is_threatened()
+        
+        # self.turn = not self.turn
+        # for row in self.board:
+        #     for piece in row:
+        #         if piece is not None and piece.color == self.turn:
+        #             # will run for each piece on the opponent's team (opponent of our_king)
+        #             moves = piece.get_valid_moves(only_round_one=True)
+        #             for move in moves:
+        #                 if move == (our_king.x, our_king.y):
+        #                     # They can take the king!
+        #                     return True
+        # return False
 
 
 class LogPiece():
@@ -119,13 +128,28 @@ class LogPiece():
             return False
         else:
             return True
+
+    """Returns True if piece is threatened, False if not"""
+    def is_threatened(self):
+        for row in self.game.board:
+            for piece in row:
+                if piece is not None and piece.color != self.color:
+                    # will run for each piece on the opponent's team (opponent of self)
+                    moves = piece.get_valid_moves(only_round_one=True)
+                    for move in moves:
+                        if move == (self.x, self.y):
+                            # They can take me!
+                            return True
+        return False
+
+
     def get_valid_moves(self, only_round_one=False):
         # Round 1: find valid moves based on rules for how the pieces can move
-        print(f'get_valid_moves for piece {self}')
+        # print(f'get_valid_moves for piece {self}')
         retVal = self.cp_get_valid_moves()
-        print(f'Valid moves from cp_get_valid_moves:  {retVal}')
+        # print(f'Valid moves from cp_get_valid_moves:  {retVal}')
         list2 = self.direct_get_valid_moves()
-        print(f'Valid moves from direct_get_valid_moves:  {list2}')
+        # print(f'Valid moves from direct_get_valid_moves:  {list2}')
         retVal.extend(list2)
 
         # Round 2: remove moves that would put your own team in check
@@ -314,11 +338,11 @@ class King(LogPiece):
 
     def get_valid_moves(self, only_round_one=False):
         # Round 1: find valid moves based on rules for how the pieces can move
-        print(f'get_valid_moves for piece {self}')
+        # print(f'get_valid_moves for piece {self}')
         retVal = self.cp_get_valid_moves()
-        print(f'Valid moves from cp_get_valid_moves:  {retVal}')
+        # print(f'Valid moves from cp_get_valid_moves:  {retVal}')
         list2 = self.direct_get_valid_moves()
-        print(f'Valid moves from direct_get_valid_moves:  {list2}')
+        # print(f'Valid moves from direct_get_valid_moves:  {list2}')
         retVal.extend(list2)
         # Finding castling
         if self.has_moved() is not True:
@@ -341,5 +365,6 @@ class King(LogPiece):
         #         remove this move from retVal
 
         return retVal
+
     def __str__(self):
         return f"{'W' if self.color else 'B'}King"

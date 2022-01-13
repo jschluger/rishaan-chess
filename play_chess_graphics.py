@@ -319,7 +319,9 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
                 else:
                     holding = False
 
-        # ToDo: Stop highlighting valid moves
+        # Detect checkmate
+        if logGame.in_checkmate(not color):
+            exit(f'{"White" if color else "Black"} wins!')
 
         # Draw Everything
         all_pieces = update_piece_positions(all_pieces)
@@ -330,6 +332,15 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
                 loc = board_pixel(valid_move[0], valid_move[1])
                 rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
                 screen.fill((189, 209, 255), rect=rect)
+
+        # Highlighting at risk pieces
+        for row in logGame.board:
+            for test_piece in row:
+                if test_piece is not None and isinstance(test_piece, chess.King) and test_piece.is_threatened():
+                    loc = board_pixel(test_piece.x, test_piece.y)
+                    rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
+                    screen.fill((217, 83, 74), rect=rect)
+
 
         allsprites = pg.sprite.RenderPlain(
             [piece.graphicPiece for piece in all_pieces])
