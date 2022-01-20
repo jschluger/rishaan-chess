@@ -74,10 +74,11 @@ class ChessGame():
                 if piece is not None and piece.color == self.turn and isinstance(
                         piece, King):
                     our_king = piece
-                    break
+                    return our_king.is_threatened()
+
 
         # Let the opponent play their turn
-        return our_king.is_threatened()
+        #return our_king.is_threatened()
         
         # self.turn = not self.turn
         # for row in self.board:
