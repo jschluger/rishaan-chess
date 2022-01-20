@@ -265,8 +265,8 @@ class Rook(LogPiece):
         self.cp_to_check = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         self.direct_to_check = []
 
-        def __str__(self):
-            return f"{'W' if self.color else 'B'}Rook"
+    def __str__(self):
+        return f"{'W' if self.color else 'B'}Rook"
 
 
 class Knight(LogPiece):
