@@ -74,24 +74,12 @@ class ChessGame():
                 if piece is not None and piece.color == self.turn and isinstance(
                         piece, King):
                     our_king = piece
+
+
+                    # Let the opponent play their turn
                     return our_king.is_threatened()
 
-
-        # Let the opponent play their turn
-        #return our_king.is_threatened()
         
-        # self.turn = not self.turn
-        # for row in self.board:
-        #     for piece in row:
-        #         if piece is not None and piece.color == self.turn:
-        #             # will run for each piece on the opponent's team (opponent of our_king)
-        #             moves = piece.get_valid_moves(only_round_one=True)
-        #             for move in moves:
-        #                 if move == (our_king.x, our_king.y):
-        #                     # They can take the king!
-        #                     return True
-        # return False
-
 
 class LogPiece():
     def __init__(self, color, x, y, game):
@@ -352,6 +340,12 @@ class King(LogPiece):
                 if rook != None:
                     if rook.has_moved() is not True:
                         retVal.append((self.x + 2, self.y))
+            if self.game.board[self.x - 1][self.y] == None and self.game.board[self.x - 2][self.y] == None and self.game.board[self.x - 3][self.y] == None:
+                rook = self.game.board[self.x - 4][self.y]
+                if rook != None:
+                    if rook.has_moved() is not True:
+                        retVal.append((self.x - 2, self.y))
+
         # Round 2: remove moves that would put your own team in check
         if only_round_one == False:
             retVal = list(
