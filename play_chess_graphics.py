@@ -275,6 +275,11 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     # Problem: logGame.turn is not up to date
     logGame.turn = color
+
+    # Detect checkmate
+    if logGame.in_checkmate(color):
+        exit(f'{"Black" if color else "White"} wins!')
+
     going = True
     holding = False
     last_click_time = 0
@@ -319,9 +324,7 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
                 else:
                     holding = False
 
-        # Detect checkmate
-        if logGame.in_checkmate(not color):
-            exit(f'{"White" if color else "Black"} wins!')
+
 
         # Draw Everything
         all_pieces = update_piece_positions(all_pieces)
