@@ -325,6 +325,29 @@ class King(LogPiece):
                                 (0, 1), (-1, 0), (0, -1)]
         self.cp_to_check = []
 
+
+    # (target_x, target_y) must be something returned by self.get_valid_moves()
+    def move(self, target_x, target_y):
+        castle = False
+        if abs(self.x - target_x) == 2:
+            castle = True
+
+        # Do the regular move for the king
+        super().move(target_x, target_y)
+        # We just moved the king
+
+        # Handle castling if needed
+        if castle == True:
+            if self.x == 6:
+                rook = self.game.board[self.x + 1][ self.y]
+                rook.move(5, self.y)
+            elif self.x == 2:
+                rook = self.game.board[self.x - 2][ self.y]
+                rook.move(3, self.y)
+
+
+
+
     def get_valid_moves(self, only_round_one=False):
         # Round 1: find valid moves based on rules for how the pieces can move
         # print(f'get_valid_moves for piece {self}')
