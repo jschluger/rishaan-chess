@@ -356,18 +356,21 @@ class King(LogPiece):
         list2 = self.direct_get_valid_moves()
         # print(f'Valid moves from direct_get_valid_moves:  {list2}')
         retVal.extend(list2)
+        
         # Finding castling
-        if self.has_moved() is not True:
-            if self.game.board[self.x + 1][self.y] == None and self.game.board[self.x + 2][self.y] == None:
-                rook = self.game.board[self.x + 3][self.y]
-                if rook != None:
-                    if rook.has_moved() is not True:
-                        retVal.append((self.x + 2, self.y))
-            if self.game.board[self.x - 1][self.y] == None and self.game.board[self.x - 2][self.y] == None and self.game.board[self.x - 3][self.y] == None:
-                rook = self.game.board[self.x - 4][self.y]
-                if rook != None:
-                    if rook.has_moved() is not True:
-                        retVal.append((self.x - 2, self.y))
+        if only_round_one == False:
+            if self.is_threatened() != True:
+                if self.has_moved() is not True:
+                    if self.game.board[self.x + 1][self.y] == None and self.game.board[self.x + 2][self.y] == None:
+                        rook = self.game.board[self.x + 3][self.y]
+                        if rook != None:
+                            if rook.has_moved() is not True:
+                                retVal.append((self.x + 2, self.y))
+                    if self.game.board[self.x - 1][self.y] == None and self.game.board[self.x - 2][self.y] == None and self.game.board[self.x - 3][self.y] == None:
+                        rook = self.game.board[self.x - 4][self.y]
+                        if rook != None:
+                            if rook.has_moved() is not True:
+                                retVal.append((self.x - 2, self.y))
 
         # Round 2: remove moves that would put your own team in check
         if only_round_one == False:
