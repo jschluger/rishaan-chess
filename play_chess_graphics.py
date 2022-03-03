@@ -370,4 +370,9 @@ def update_piece_positions(pieces):
 
 # this calls the 'main' function when this script is executed
 if __name__ == "__main__":
+    mode = input('Which game mode (HOST, CLIENT) would you like to play in: ')
+        if mode == 'host' or mode == 'HOST' or mode == 'Host':
+            mode = 'HOST'
+        else:
+            mode = 'CLIENT'
     main()
