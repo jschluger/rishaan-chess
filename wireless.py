@@ -2,6 +2,7 @@ import socket
 
 
 class Wireless():
+
     # which_type should be 'server' or 'client' 
     def __init__(self, which_type):
         if which_type == 'server':
@@ -23,12 +24,11 @@ class Wireless():
             HOST = socket.gethostbyname(socket.gethostname())  # The remote host
             PORT = 50008              # The same port as used by the server
 
-            with socket.socket() as s:
-                # Join the socket "groupchat"
-                s.connect((HOST, PORT))
-                #sleep(5)
-                self.conn = s
-
+            s = socket.socket()
+            # Join the socket "groupchat"
+            s.connect((HOST, PORT))
+            #sleep(5)
+            self.conn = s
             
 
     def send_message(self, message):
@@ -62,4 +62,7 @@ class Wireless():
 
             print('Received: ', data)
 
+    def close(self):
+        self.conn.close()
+    
 

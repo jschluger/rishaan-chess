@@ -13,6 +13,7 @@ import pygame as pg
 from pygame.compat import geterror
 import chess
 import random, time
+from wireless import Wireless
 
 if not pg.font:
     print("Warning, fonts disabled")
@@ -264,13 +265,16 @@ def main():
         bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1,
         bbishop2, wbishop1, wbishop2, wqueen1, bqueen1, wking1, bking1
     ]
+
+    wireless = Wireless(????)    
+
     # Main Loop
     print(logGame)
-    play_turn(True, logGame, clock, screen, background, all_pieces)
+    play_turn(True, logGame, clock, screen, background, all_pieces, wireless)
     pg.quit()
 
 
-def play_turn(color, logGame, clock, screen, background, all_pieces):
+def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     # Problem: logGame.turn is not up to date
@@ -350,7 +354,7 @@ def play_turn(color, logGame, clock, screen, background, all_pieces):
         allsprites.draw(screen)
         pg.display.flip()
 
-    play_turn(not color, logGame, clock, screen, background, all_pieces)
+    play_turn(not color, logGame, clock, screen, background, all_pieces, wireless)
 
 
 def update_piece_positions(pieces):
