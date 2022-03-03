@@ -18,6 +18,7 @@ class Wireless():
                 # Wait until someone else joins this (HOST,PORT) specified socket
                 self.conn, addr = s.accept()
                 print('Connected by', addr)
+        
 
         else:
             assert which_type == 'client'
@@ -39,30 +40,30 @@ class Wireless():
         return data
 
 
-    def server_talk(self):
-        while True:
-            # Recieve data on the connection
-            data = self.conn.recv(1024)
-            print('Recieved: ',data)
-            # sleep(5)
-
-            # Reply to the other program
-            reply = input('What would you like to say: ')
-            print('Sending: ',reply)
-            self.conn.send(reply.encode())
-
-
-    def client_talk(self):
-        while True:
-            message = input('What would you like to say: ')
-            print('Sending: ',message)
-            
-            self.conn.send(message.encode())
-            data = self.conn.recv(1024)
-
-            print('Received: ', data)
-
     def close(self):
         self.conn.close()
+
+    # def server_talk(self):
+    #     while True:
+    #         # Recieve data on the connection
+    #         data = self.conn.recv(1024)
+    #         print('Recieved: ',data)
+    #         # sleep(5)
+
+    #         # Reply to the other program
+    #         reply = input('What would you like to say: ')
+    #         print('Sending: ',reply)
+    #         self.conn.send(reply.encode())
+
+
+    # def client_talk(self):
+    #     while True:
+    #         message = input('What would you like to say: ')
+    #         print('Sending: ',message)
+            
+    #         self.conn.send(message.encode())
+    #         data = self.conn.recv(1024)
+
+    #         print('Received: ', data)
     
 

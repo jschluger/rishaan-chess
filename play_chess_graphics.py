@@ -191,7 +191,7 @@ def pixel_board(x, y):
     return result
 
 
-def main():
+def main(mode):
     # Set up the logistics
     logGame = chess.ChessGame()
 
@@ -265,8 +265,10 @@ def main():
         bknight2, wknight1, wknight2, wrook1, wrook2, brook1, brook2, bbishop1,
         bbishop2, wbishop1, wbishop2, wqueen1, bqueen1, wking1, bking1
     ]
-
-    wireless = Wireless(????)    
+    if mode != 'self':
+        wireless = Wireless(mode)
+    else:
+        wireless = None    
 
     # Main Loop
     print(logGame)
@@ -278,6 +280,17 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     # Problem: logGame.turn is not up to date
+    
+    #Replicating our opponents turn 
+    if wireless != None:
+        recieved = wireless.recv_message()
+        piece = logGame.board[recieved[0][0]][recieved[0][1]]
+        piece.move(recieved[1][0], recieved[1][1])
+        going = False # ?
+        #####################   
+    
+    
+    # Start our own turn
     logGame.turn = color
 
     # Detect checkmate
@@ -354,6 +367,13 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
         allsprites.draw(screen)
         pg.display.flip()
 
+        
+    if wireless != None:
+        message = ((last_x_boardpos, last_y_boardpos), (x_boardpos, y_boardpos))
+        # message[0] is the old position (message[0][1] is the y coordinate of the old position)
+        # message[1] is the new position (message[1][0] is the x coordinate of the new position)
+        sent = wireless.send_message(message)
+
     play_turn(not color, logGame, clock, screen, background, all_pieces, wireless)
 
 
@@ -370,9 +390,11 @@ def update_piece_positions(pieces):
 
 # this calls the 'main' function when this script is executed
 if __name__ == "__main__":
-    mode = input('Which game mode (HOST, CLIENT) would you like to play in: ')
-        if mode == 'host' or mode == 'HOST' or mode == 'Host':
-            mode = 'HOST'
-        else:
-            mode = 'CLIENT'
-    main()
+    mode = input('Which game mode (server, client, self) would you like to play in: ')
+    if mode == 'server' or mode == 'SERVER' or mode == 'Server':
+        mode = 'server'
+    elif mode == 'self' or mode == 'SELF' or mode == 'Self':
+        mode = 'self'
+    else:
+        mode = 'client'
+    main(mode)
