@@ -280,13 +280,14 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     # Problem: logGame.turn is not up to date
-    
+    counter = 0
     #Replicating our opponents turn 
     if wireless != None:
-        recieved = wireless.recv_message()
-        piece = logGame.board[recieved[0][0]][recieved[0][1]]
-        piece.move(recieved[1][0], recieved[1][1])
-        going = False # ?
+        if counter != 0:
+            recieved = wireless.recv_message()
+            piece = logGame.board[recieved[0][0]][recieved[0][1]]
+            piece.move(recieved[1][0], recieved[1][1])
+            going = False # ?
         #####################   
     
     
@@ -373,7 +374,7 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
         # message[0] is the old position (message[0][1] is the y coordinate of the old position)
         # message[1] is the new position (message[1][0] is the x coordinate of the new position)
         sent = wireless.send_message(message)
-
+    counter + 1
     play_turn(not color, logGame, clock, screen, background, all_pieces, wireless)
 
 
