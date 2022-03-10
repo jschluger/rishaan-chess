@@ -33,11 +33,20 @@ class Wireless():
             
 
     def send_message(self, message):
-        self.conn.send(message.encode())
+        if isinstance(message, str):
+            encoded_message = message.encode()
+        if isinstance(message, tuple):
+            # encoded_message = int.from_bytes(message, byteorder ='big')
+            encoded_message = message.to_bytes(4, byteorder ='big')
+        self.conn.send(encoded_message)
 
     def recv_message(self):
         data = self.conn.recv(1024)
-        return data
+
+        # decoded_data = tuple(data.to_bytes(4, byteorder ='big'))
+        decoded_data = tuple(data)
+
+        return decoded_data
 
 
     def close(self):

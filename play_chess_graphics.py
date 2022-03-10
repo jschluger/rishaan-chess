@@ -268,22 +268,28 @@ def main(mode):
     if mode != 'self':
         wireless = Wireless(mode)
     else:
-        wireless = None    
+        wireless = None   
+
+    if mode == 'server':
+        my_team = True
+    elif mode == 'client':
+        my_team = False
+    else:
+        my_team = None
 
     # Main Loop
     print(logGame)
-    play_turn(True, logGame, clock, screen, background, all_pieces, wireless)
+    play_turn(True, logGame, clock, screen, background, all_pieces, wireless, 0, my_team)
     pg.quit()
 
 
-def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
+def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, counter, my_team):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     # Problem: logGame.turn is not up to date
-    counter = 0
     #Replicating our opponents turn 
     if wireless != None:
-        if counter != 0:
+        if (my_team == False and counter % 2 == 0) or (my_team == True and counter % 2 == 1):
             recieved = wireless.recv_message()
             piece = logGame.board[recieved[0][0]][recieved[0][1]]
             piece.move(recieved[1][0], recieved[1][1])
@@ -374,8 +380,8 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless):
         # message[0] is the old position (message[0][1] is the y coordinate of the old position)
         # message[1] is the new position (message[1][0] is the x coordinate of the new position)
         sent = wireless.send_message(message)
-    counter + 1
-    play_turn(not color, logGame, clock, screen, background, all_pieces, wireless)
+    counter += 1
+    play_turn(not color, logGame, clock, screen, background, all_pieces, wireless, counter, my_team)
 
 
 def update_piece_positions(pieces):
