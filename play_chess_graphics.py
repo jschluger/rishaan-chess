@@ -294,6 +294,7 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
             piece = logGame.board[recieved[0][0]][recieved[0][1]]
             piece.move(recieved[1][0], recieved[1][1])
             going = False # ?
+            ##draw(all_pieces)?
         #####################   
     
     
@@ -351,29 +352,31 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
 
 
         # Draw Everything
-        all_pieces = update_piece_positions(all_pieces)
+        def draw(all_pieces):
+            all_pieces = update_piece_positions(all_pieces)
 
-        screen.blit(background, (0, 0))
-        if holding:
-            for valid_move in valid_moves:
-                loc = board_pixel(valid_move[0], valid_move[1])
-                rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
-                screen.fill((189, 209, 255), rect=rect)
-
-        # Highlighting at risk pieces
-        for row in logGame.board:
-            for test_piece in row:
-                if test_piece is not None and isinstance(test_piece, chess.King) and test_piece.is_threatened():
-                    loc = board_pixel(test_piece.x, test_piece.y)
+            screen.blit(background, (0, 0))
+            if holding:
+                for valid_move in valid_moves:
+                    loc = board_pixel(valid_move[0], valid_move[1])
                     rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
-                    screen.fill((217, 83, 74), rect=rect)
+                    screen.fill((189, 209, 255), rect=rect)
+
+            # Highlighting at risk pieces
+            for row in logGame.board:
+                for test_piece in row:
+                    if test_piece is not None and isinstance(test_piece, chess.King) and test_piece.is_threatened():
+                        loc = board_pixel(test_piece.x, test_piece.y)
+                        rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
+                        screen.fill((217, 83, 74), rect=rect)
 
 
-        allsprites = pg.sprite.RenderPlain(
-            [piece.graphicPiece for piece in all_pieces])
-        allsprites.draw(screen)
-        pg.display.flip()
+            allsprites = pg.sprite.RenderPlain(
+                [piece.graphicPiece for piece in all_pieces])
+            allsprites.draw(screen)
+            pg.display.flip()
 
+        draw(all_pieces)
         
     if wireless != None:
         message = ((last_x_boardpos, last_y_boardpos), (x_boardpos, y_boardpos))
