@@ -282,21 +282,39 @@ def main(mode):
     play_turn(True, logGame, clock, screen, background, all_pieces, wireless, 0, my_team)
     pg.quit()
 
+# Draw Everything
+def draw(all_pieces, screen, background, logGame, holding=False, valid_moves=None):
+    all_pieces = update_piece_positions(all_pieces)
+
+    screen.blit(background, (0, 0))
+    if holding:
+        for valid_move in valid_moves:
+            loc = board_pixel(valid_move[0], valid_move[1])
+            rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
+            screen.fill((189, 209, 255), rect=rect)
+
+    # Highlighting at risk pieces
+    for row in logGame.board:
+        for test_piece in row:
+            if test_piece is not None and isinstance(test_piece, chess.King) and test_piece.is_threatened():
+                loc = board_pixel(test_piece.x, test_piece.y)
+                rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
+                screen.fill((217, 83, 74), rect=rect)
+
+
+    allsprites = pg.sprite.RenderPlain(
+        [piece.graphicPiece for piece in all_pieces])
+    allsprites.draw(screen)
+    pg.display.flip()
+
+    return all_pieces
+
 
 def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, counter, my_team):
     # whites turn <==> color == True    -> Next play_turn needs color=False
     # blacks turn <==> color == False   -> Next play_turn needs color=True
     # Problem: logGame.turn is not up to date
     #Replicating our opponents turn 
-    if wireless != None:
-        if (my_team == False and counter % 2 == 0) or (my_team == True and counter % 2 == 1):
-            recieved = wireless.recv_message()
-            piece = logGame.board[recieved[0][0]][recieved[0][1]]
-            piece.move(recieved[1][0], recieved[1][1])
-            going = False # ?
-            ##draw(all_pieces)?
-        #####################   
-    
     
     # Start our own turn
     logGame.turn = color
@@ -305,8 +323,23 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
     if logGame.in_checkmate(color):
         exit(f'{"Black" if color else "White"} wins!')
 
+    if wireless != None:
+        if (my_team == False and counter % 2 == 0) or (my_team == True and counter % 2 == 1):
+            all_pieces = draw(all_pieces, screen, background, logGame)
+            recieved = wireless.recv_message()
+            piece = logGame.board[recieved[0][0]][recieved[0][1]]
+            piece.move(recieved[1][0], recieved[1][1])
+            
+            counter += 1
+            play_turn(not color, logGame, clock, screen, background, all_pieces, wireless, counter, my_team)
+            return
+            
+        #####################   
+    
+
     going = True
     holding = False
+    valid_moves = None 
     last_click_time = 0
     while going:
         clock.tick(60)
@@ -349,43 +382,16 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
                 else:
                     holding = False
 
-
-
-        # Draw Everything
-        def draw(all_pieces):
-            all_pieces = update_piece_positions(all_pieces)
-
-            screen.blit(background, (0, 0))
-            if holding:
-                for valid_move in valid_moves:
-                    loc = board_pixel(valid_move[0], valid_move[1])
-                    rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
-                    screen.fill((189, 209, 255), rect=rect)
-
-            # Highlighting at risk pieces
-            for row in logGame.board:
-                for test_piece in row:
-                    if test_piece is not None and isinstance(test_piece, chess.King) and test_piece.is_threatened():
-                        loc = board_pixel(test_piece.x, test_piece.y)
-                        rect = (loc[0], loc[1], SQUARE_W, SQUARE_H)
-                        screen.fill((217, 83, 74), rect=rect)
-
-
-            allsprites = pg.sprite.RenderPlain(
-                [piece.graphicPiece for piece in all_pieces])
-            allsprites.draw(screen)
-            pg.display.flip()
-
-        draw(all_pieces)
+        all_pieces = draw(all_pieces, screen, background, logGame, holding=holding, valid_moves=valid_moves)
         
     if wireless != None:
         message = ((last_x_boardpos, last_y_boardpos), (x_boardpos, y_boardpos))
         # message[0] is the old position (message[0][1] is the y coordinate of the old position)
         # message[1] is the new position (message[1][0] is the x coordinate of the new position)
         sent = wireless.send_message(message)
+    
     counter += 1
     play_turn(not color, logGame, clock, screen, background, all_pieces, wireless, counter, my_team)
-
 
 def update_piece_positions(pieces):
     # Should return the updated list of all_pieces

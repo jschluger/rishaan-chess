@@ -1,4 +1,4 @@
-import socket
+import socket, json
 
 
 class Wireless():
@@ -36,16 +36,12 @@ class Wireless():
         if isinstance(message, str):
             encoded_message = message.encode()
         if isinstance(message, tuple):
-            # encoded_message = int.from_bytes(message, byteorder ='big')
-            encoded_message = message.to_bytes(4, byteorder ='big')
+            encoded_message = json.dumps(message).encode()
         self.conn.send(encoded_message)
 
     def recv_message(self):
         data = self.conn.recv(1024)
-
-        # decoded_data = tuple(data.to_bytes(4, byteorder ='big'))
-        decoded_data = tuple(data)
-
+        decoded_data = json.loads(data.decode())
         return decoded_data
 
 
