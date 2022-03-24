@@ -245,7 +245,7 @@ class BPawn(LogPiece):
     # when the pawn has reached the top row.
     def top_row(self, piece_type):
         if piece_type == "Queen":
-            BQueen(self.x, self.y, self.game)
+            Queen(self.x, self.y, self.color, self.game)
 
 
 class Rook(LogPiece):
