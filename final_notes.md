@@ -1,6 +1,6 @@
 
 #### How to view & run this notebook:
-1. View it on github at https://github.com/jschluger/rishaan-chess/blob/main/final_notes.ipynb
+1. View it on github at https://github.com/jschluger/rishaan-chess/blob/main/final_notes.md
 2. To run the notebook, install Anaconda here, https://docs.anaconda.com/anaconda/install/index.html, then use that to run jupyter notebook.
 ----
 
