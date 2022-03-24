@@ -1,4 +1,3 @@
-
 #### How to view & run this notebook:
 1. View it on github at https://github.com/jschluger/rishaan-chess/blob/main/final_notes.md
 2. To run the notebook, install Anaconda here, https://docs.anaconda.com/anaconda/install/index.html, then use that to run jupyter notebook.
@@ -27,7 +26,7 @@ E.g.:
 ```python
 class MyClass():
     
-    # All classes need an __init__ to setup the class
+    # All classes need an __init__ to initilize each instance of the class
     def __init__(self, name):
         super().__init__()
         
@@ -39,7 +38,8 @@ class MyClass():
         return self.name
     
 myInstance = MyClass('Rishaan')
-# myInstance is an instance of MyClass because we used parenthies to construct an instance of MyClass (with name=Rishaan)
+# myInstance is an instance of MyClass because we used parenthies to construct an instance of MyClass (with name='Rishaan')
+# We can't say MyClass.name
 
 # We can confirm with the isinstance method:
 print(isinstance(myInstance, MyClass))
@@ -253,6 +253,7 @@ print(even_N)
 
 
 #### Map: transform one list into another list by using a fuction to transform each element:
+Run a function on every element of a list, and make a list of all the results
 e.g.:
 
 
@@ -271,4 +272,33 @@ print(new_M)
 ```
 
     [0, -1, 2, -3, 4, -5, 6, -7, 8, -9, 10, -11, 12, -13, 14, -15, 16, -17, 18, -19]
+
+
+### Lambda Expressions: Functions without Names
+
+
+```python
+# Classically
+def is_even(x):
+    return x % 2 == 0
+
+print('is_even(2) = ',is_even(2))
+print('is_even(5) = ',is_even(5))
+print()
+
+# Alternativly 
+is_even_lambda = lambda x: x % 2 == 0
+
+print('is_even_lambda(2) = ',is_even_lambda(2))
+print('is_even_lambda(5) = ',is_even_lambda(5))
+
+print('(lambda x: x % 2 == 0)(11) = ', (lambda x: x % 2 == 0)(11))
+```
+
+    is_even(2) =  True
+    is_even(5) =  False
+    
+    is_even_lambda(2) =  True
+    is_even_lambda(5) =  False
+    (lambda x: x % 2 == 0)(11) =  False
 

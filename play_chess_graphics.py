@@ -327,8 +327,27 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
         if (my_team == False and counter % 2 == 0) or (my_team == True and counter % 2 == 1):
             all_pieces = draw(all_pieces, screen, background, logGame)
             recieved = wireless.recv_message()
-            piece = logGame.board[recieved[0][0]][recieved[0][1]]
-            piece.move(recieved[1][0], recieved[1][1])
+
+            last_x_boardpos, last_y_boardpos = recieved[0]
+            x_boardpos, y_boardpos = recieved[1]
+
+            piece = logGame.board[last_x_boardpos][last_y_boardpos]
+            piece.move(x_boardpos, y_boardpos)
+            # Check what piece is actually on the board
+            real_piece = logGame.board[x_boardpos][y_boardpos]
+
+            if piece != real_piece:
+                # We just swapped out a pawn on the top row
+                # piece is the old pawn
+                # real_piece is the new replacement
+
+                # Filter the pawn out of all_pieces
+                all_pieces = list(filter(lambda z: z.logicalPiece != piece, all_pieces))
+
+                if real_piece.color:
+                    all_pieces.append( WQueen(x_boardpos, y_boardpos, logGame) )
+                else:
+                    all_pieces.append( BQueen(x_boardpos, y_boardpos, logGame) )
             
             counter += 1
             play_turn(not color, logGame, clock, screen, background, all_pieces, wireless, counter, my_team)
@@ -375,6 +394,22 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
                 if (x_boardpos, y_boardpos) in valid_moves:
 
                     piece.move(x_boardpos, y_boardpos)
+
+                    # Check what piece is actually on the board
+                    real_piece = logGame.board[x_boardpos][y_boardpos]
+
+                    if piece != real_piece:
+                        # We just swapped out a pawn on the top row
+                        # piece is the old pawn
+                        # real_piece is the new replacement
+
+                        # Filter the pawn out of all_pieces
+                        all_pieces = list(filter(lambda z: z.logicalPiece != piece, all_pieces))
+
+                        if real_piece.color:
+                            all_pieces.append( WQueen(x_boardpos, y_boardpos, logGame) )
+                        else:
+                            all_pieces.append( BQueen(x_boardpos, y_boardpos, logGame) )
 
                     # We just moved the piece
                     going = False

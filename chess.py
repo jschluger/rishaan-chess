@@ -221,7 +221,15 @@ class WPawn(LogPiece):
     # when the pawn has reached the top row.
     def top_row(self, piece_type):
         if piece_type == "Queen":
-            Queen(self.x, self.y, self.game)
+            Queen(self.x, self.y, self.color, self.game)
+
+    # (target_x, target_y) must be something returned by self.get_valid_moves()
+    def move(self, target_x, target_y):
+        # Do the regular move for the pawn
+        super().move(target_x, target_y)
+        # We just moved the pawn
+        if self.y == 7:
+            self.top_row('Queen')
 
 
 class BPawn(LogPiece):
@@ -246,6 +254,14 @@ class BPawn(LogPiece):
     def top_row(self, piece_type):
         if piece_type == "Queen":
             Queen(self.x, self.y, self.color, self.game)
+
+    # (target_x, target_y) must be something returned by self.get_valid_moves()
+    def move(self, target_x, target_y):
+        # Do the regular move for the pawn
+        super().move(target_x, target_y)
+        # We just moved the pawn
+        if self.y == 0:
+            self.top_row('Queen')
 
 
 class Rook(LogPiece):
@@ -289,11 +305,6 @@ class Knight(LogPiece):
     #                 retVal.append((self.x + dx, self.y + dy))
 
     #     return retVal
-
-    # Call to switch out this pawn for a piece of type `piece_type`
-    # when the pawn has reached the top row.
-    def top_row(self, piece_type):
-        raise NotImplementedError()  # Do we need to implement this?
 
 
 class Bishop(LogPiece):
