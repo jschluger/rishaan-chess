@@ -58,13 +58,16 @@ def load_sound(name):
 
     if not pg.mixer or not pg.mixer.get_init():
         return NoneSound()
+
     fullname = os.path.join(data_dir, name)
-    try:
-        sound = pg.mixer.Sound(fullname)
-    except pg.error:
-        print("Cannot load sound: %s" % fullname)
-        raise SystemExit(str(geterror()))
+    sound = pg.mixer.Sound(fullname)
+
     return sound
+
+pg.mixer.init()
+pg.mixer.music.set_volume(0.02)
+pg.mixer.music.load('Chess-Music.mp3')
+pg.mixer.music.play(-1)
 
 
 class Piece(pg.sprite.DirtySprite):
@@ -415,6 +418,7 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
                     going = False
                     print(f'all_pieces has {len(all_pieces)} pieces')
                 else:
+
                     holding = False
 
         all_pieces = draw(all_pieces, screen, background, logGame, holding=holding, valid_moves=valid_moves)
