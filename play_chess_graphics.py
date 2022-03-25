@@ -62,10 +62,16 @@ def load_sound(name):
     fullname = os.path.join(data_dir, name)
     sound = pg.mixer.Sound(fullname)
 
+
     return sound
 
+# Set volume for background music
+volume_input = input('What volume would you like your music at (Between 0 and 0.1): ')
+volume = float(volume_input)
+pg.mixer.music.set_volume(volume)
+
+# Start playing background music
 pg.mixer.init()
-pg.mixer.music.set_volume(0.02)
 pg.mixer.music.load('Chess-Music.mp3')
 pg.mixer.music.play(-1)
 
@@ -397,6 +403,14 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
                 if (x_boardpos, y_boardpos) in valid_moves:
 
                     piece.move(x_boardpos, y_boardpos)
+
+                    # Pause background music
+                    pg.mixer.music.pause()
+                    # Load and play click sound
+                    placement_audio = pg.mixer.Sound('Chess_Piece_Audio.wav')
+                    placement_audio.play()
+                    # Unpause background music
+                    pg.mixer.music.unpause()
 
                     # Check what piece is actually on the board
                     real_piece = logGame.board[x_boardpos][y_boardpos]
