@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-""" pygame.examples.pawn
+""" play_chess_graphics.py
 
-This simple example is used for the line-by-line tutorial
-that comes with pygame. It is based on a 'popular' web banner.
-Note there are comments here, but for the full explanation,
-follow along in the tutorial.
+    This chess game is based off of the pygame tutorial. Using the module
+pygame and the text based game on the file Chess.py this game brings a
+classic to graphical life! Featuring comments throughout to help guide you.
+
 """
 """Testing GitHub"""
 # Import Modules
@@ -34,6 +34,9 @@ BOARD_HEIGHT = SQUARE_H * 8
 PIECE_WIDTH = 50
 PIECE_HEIGHT = 50
 
+print('Welcome to PyChess! This is a python based chess game that allows \n'
+      'two players to play simultaneously on the same computer or two \n'
+      'different computers. Enjoy!')
 
 # functions to create our resources
 def load_image(name, colorkey=None):
@@ -68,10 +71,11 @@ def load_sound(name):
 # Set volume for background music
 volume_input = input('What volume would you like your music at (Between 0 and 0.1): ')
 volume = float(volume_input)
-pg.mixer.music.set_volume(volume)
+
 
 # Start playing background music
 pg.mixer.init()
+pg.mixer.music.set_volume(volume)
 pg.mixer.music.load('Chess-Music.mp3')
 pg.mixer.music.play(-1)
 
@@ -330,8 +334,27 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
 
     # Detect checkmate
     if logGame.in_checkmate(color):
+        final_message = f'{"Black" if color else "White"} wins!'
+        pg.display.quit()
+        pg.display.init()
+        screen = pg.display.set_mode((400, 400))
+        pg.display.set_caption("Final Screen")
+        screen.fill((255, 255, 255))
+        pg.display.flip()
+        pg.font.init()
+        myfont= pg.font.Font('calibri-bold-italic.ttf', 30)
+        myFont = pg.font.Font('calibri-bold.ttf', 10)
+        textsurface = myfont.render(final_message, True, (99, 75, 4))
+        textRect = textsurface.get_rect()
+        # set the center of the rectangular object.
+        textRect.center = (400 // 2, 400 // 2)
+        screen.blit(textsurface,textRect)
+        textsurfaceII = myFont.render('This window will close in 5 seconds', True, (0, 0, 0))
+        screen.blit(textsurfaceII, (0, 0))
+        pg.display.update()
+        pg.mouse.set_visible(1)
+        time.sleep(5)
         exit(f'{"Black" if color else "White"} wins!')
-
     if wireless != None:
         if (my_team == False and counter % 2 == 0) or (my_team == True and counter % 2 == 1):
             all_pieces = draw(all_pieces, screen, background, logGame)
