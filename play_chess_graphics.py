@@ -14,6 +14,9 @@ from pygame.compat import geterror
 import chess
 import random, time
 from wireless import Wireless
+import Lobby
+
+
 
 if not pg.font:
     print("Warning, fonts disabled")
@@ -204,6 +207,7 @@ def pixel_board(x, y):
     return result
 
 
+
 def main(mode):
     # Set up the logistics
     logGame = chess.ChessGame()
@@ -335,26 +339,33 @@ def play_turn(color, logGame, clock, screen, background, all_pieces, wireless, c
     # Detect checkmate
     if logGame.in_checkmate(color):
         final_message = f'{"Black" if color else "White"} wins!'
+        # Quit board image
         pg.display.quit()
+        # Display new window
         pg.display.init()
         screen = pg.display.set_mode((400, 400))
         pg.display.set_caption("Final Screen")
         screen.fill((255, 255, 255))
         pg.display.flip()
+        # Set up text
         pg.font.init()
         myfont= pg.font.Font('calibri-bold-italic.ttf', 30)
         myFont = pg.font.Font('calibri-bold.ttf', 10)
         textsurface = myfont.render(final_message, True, (99, 75, 4))
         textRect = textsurface.get_rect()
-        # set the center of the rectangular object.
+        # Set the center of the window
         textRect.center = (400 // 2, 400 // 2)
+        # Add text
         screen.blit(textsurface,textRect)
         textsurfaceII = myFont.render('This window will close in 5 seconds', True, (0, 0, 0))
         screen.blit(textsurfaceII, (0, 0))
         pg.display.update()
         pg.mouse.set_visible(1)
+        # Wait
         time.sleep(5)
+        # Normal exit
         exit(f'{"Black" if color else "White"} wins!')
+
     if wireless != None:
         if (my_team == False and counter % 2 == 0) or (my_team == True and counter % 2 == 1):
             all_pieces = draw(all_pieces, screen, background, logGame)
@@ -481,12 +492,5 @@ def update_piece_positions(pieces):
 
 
 # this calls the 'main' function when this script is executed
-if __name__ == "__main__":
-    mode = input('Which game mode (server, client, self) would you like to play in: ')
-    if mode == 'server' or mode == 'SERVER' or mode == 'Server':
-        mode = 'server'
-    elif mode == 'self' or mode == 'SELF' or mode == 'Self':
-        mode = 'self'
-    else:
-        mode = 'client'
-    main(mode)
+while True:
+    Lobby.Lobby_Screen(main('self'))
